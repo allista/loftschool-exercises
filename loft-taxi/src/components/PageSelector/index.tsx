@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Login from '../Login';
-import Profile from '../Proile';
+import Profile from '../Profile';
 import MapView from '../MapView';
 import Registration from '../Registration';
 import { PageID } from '../../shared';
