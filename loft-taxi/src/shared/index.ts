@@ -17,5 +17,5 @@ export const pageTitles = {
   [PageID.LOGIN]: 'Войти',
   [PageID.PROFILE]: 'Профиль',
   [PageID.MAP]: 'Карта',
-  [PageID.REGISTRATION]: 'Зарегистрироваться',
+  [PageID.REGISTRATION]: 'Регистрация',
 };
