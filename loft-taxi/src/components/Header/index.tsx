@@ -38,7 +38,7 @@ export const Header: FC<HeaderProps> = ({
 }) => {
   const pageButtons = pages.map(p =>
     loggedIn && (p.id === PageID.LOGIN || p.id === PageID.REGISTRATION) ? null : (
-      <PageButton {...p} selected={p.id === currentPage} selectPage={selectPage} />
+      <PageButton key={p.id} {...p} selected={p.id === currentPage} selectPage={selectPage} />
     ),
   );
   return (
