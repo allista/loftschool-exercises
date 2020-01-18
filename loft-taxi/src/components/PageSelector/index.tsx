@@ -17,7 +17,8 @@ const pageToComponent = {
 };
 
 export const PageSelector: FC<PageSelectorProps> = ({ pageID }) => {
-  return <>{pageToComponent[pageID] || null}</>;
+  const Page = pageToComponent[pageID] || null;
+  return <Page />;
 };
 
 export default PageSelector;
