@@ -2,6 +2,7 @@ import React, { FC, useCallback } from 'react';
 import classNames from 'classnames';
 import { PageID, PageInfo, Button } from '../../shared';
 import Logo from '../Logo';
+import './style.scss';
 
 export type SelectPageCallback = (id: PageID) => void;
 
