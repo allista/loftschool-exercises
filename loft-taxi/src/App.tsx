@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.scss';
 import Header from './components/Header';
 import PageSelector from './components/PageSelector';
-import { pageTitles, PageID, title } from './shared';
+import { pageTitles, PageID } from './shared';
 
 export const pages = [PageID.LOGIN, PageID.MAP, PageID.PROFILE, PageID.REGISTRATION].map(p => ({
   id: p,
@@ -14,7 +14,6 @@ const App: React.FC = () => {
   return (
     <div className="loft-taxi-main-page">
       <Header
-        title={title}
         pages={pages}
         currentPage={pageID}
         selectPage={setPage}

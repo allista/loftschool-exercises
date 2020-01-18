@@ -1,7 +1,5 @@
 export * from './Button';
 
-export const title = 'Loft Taxi';
-
 export enum PageID {
   LOGIN = 'login',
   PROFILE = 'profile',

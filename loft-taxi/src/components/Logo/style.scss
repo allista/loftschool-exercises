@@ -1,0 +1,17 @@
+@import '../../shared/style';
+
+.loft-taxi-logo {
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 2em;
+  padding-right: 0.2em;
+}
+.loft-taxi-logo-primary {
+  color: $color-primary;
+}
+.loft-taxi-logo-secondary {
+  color: $text-color;
+}

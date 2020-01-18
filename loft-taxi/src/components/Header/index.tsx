@@ -1,11 +1,11 @@
 import React, { FC, useCallback } from 'react';
 import classNames from 'classnames';
 import { PageID, PageInfo, Button } from '../../shared';
+import Logo from '../Logo';
 
 export type SelectPageCallback = (id: PageID) => void;
 
 export interface HeaderProps {
-  title: string;
   pages: PageInfo[];
   currentPage: PageID;
   selectPage: SelectPageCallback;
@@ -29,7 +29,6 @@ const PageButton: FC<PageButtonProps> = ({ id, title, selected, selectPage }) =>
 };
 
 export const Header: FC<HeaderProps> = ({
-  title,
   pages,
   currentPage,
   selectPage,
@@ -43,7 +42,7 @@ export const Header: FC<HeaderProps> = ({
   );
   return (
     <div className="loft-taxi-header">
-      <div className="loft-taxi-header-title">{title}</div>
+      <Logo />
       {pageButtons}
       {loggedIn ? (
         <Button className="loft-taxi-logout-button" onClick={logout}>
