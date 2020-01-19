@@ -7,3 +7,5 @@ export interface UserContextProps {
 }
 
 export const UserContext = React.createContext<UserContextProps>({ name: null });
+
+export default UserContext;

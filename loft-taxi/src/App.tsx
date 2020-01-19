@@ -2,19 +2,29 @@ import React, { useState, useCallback } from 'react';
 import './App.scss';
 import Header from './components/Header';
 import PageSelector from './components/PageSelector';
-import { UserContext, pages, pageIsSelectable, PageID } from './shared';
+import { UserContext, NavContext, pages, pageIsSelectable, PageID } from './shared';
 
 const App: React.FC = () => {
-  const [pageID, setPage] = useState(pages[0].id);
   const [userName, setUserName] = useState<string | null>(null);
   const login = useCallback((name: string, _: string) => setUserName(name), [setUserName]);
   const logout = useCallback(() => setUserName(null), [setUserName]);
+  const loggedIn = userName !== null;
+  const [currentPageID, setPage] = useState(pages[0].id);
+  const selectPage = useCallback(
+    (pageID: PageID) => {
+      if (pageIsSelectable(loggedIn, pageID)) setPage(pageID);
+      else setPage(PageID.MAP);
+    },
+    [loggedIn, setPage],
+  );
   return (
     <UserContext.Provider value={{ name: userName, login, logout }}>
-      <div className="loft-taxi-main-page">
-        <Header pages={pages} currentPage={pageID} selectPage={setPage} />
-        <PageSelector pageID={pageID} />
-      </div>
+      <NavContext.Provider value={{ currentPageID, pages, selectPage }}>
+        <div className="loft-taxi-main-page">
+          <Header />
+          <PageSelector pageID={currentPageID} />
+        </div>
+      </NavContext.Provider>
     </UserContext.Provider>
   );
 };
