@@ -2,10 +2,14 @@ import React from 'react';
 
 export interface UserContextProps {
   name: string | null;
-  login?: (name: string, password: string) => void;
-  logout?: () => void;
+  login: (login: string, password: string) => void;
+  logout: () => void;
 }
 
-export const UserContext = React.createContext<UserContextProps>({ name: null });
+export const UserContext = React.createContext<UserContextProps>({
+  name: null,
+  login: () => {},
+  logout: () => {},
+});
 
 export default UserContext;
