@@ -22,7 +22,9 @@ const App: React.FC = () => {
       <NavContext.Provider value={{ currentPageID, pages, selectPage }}>
         <div className="loft-taxi-main-page">
           <Header />
-          <PageSelector pageID={currentPageID} />
+          <div className="loft-taxi-page-content">
+            <PageSelector pageID={currentPageID} />
+          </div>
         </div>
       </NavContext.Provider>
     </UserContext.Provider>
