@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext } from 'react';
 import classNames from 'classnames';
-import { PageID, PageInfo, Button, UserContext } from '../../shared';
+import { PageID, PageInfo, Button, UserContext, pageIsSelectable } from '../../shared';
 import UserCard from '../UserCard';
 import Logo from '../Logo';
 import './style.scss';
@@ -32,9 +32,7 @@ export const Header: FC<HeaderProps> = ({ pages, currentPage, selectPage }) => {
   const { name } = useContext(UserContext);
   const loggedIn = name !== null;
   const pageButtons = pages.map(p =>
-    loggedIn && (p.id === PageID.LOGIN || p.id === PageID.REGISTRATION) ? null : (
-      <PageButton key={p.id} {...p} selected={p.id === currentPage} selectPage={selectPage} />
-    ),
+    pageIsSelectable(loggedIn, p.id) ? <PageButton key={p.id} {...p} selected={p.id === currentPage} selectPage={selectPage} /> : null,
   );
   return (
     <div className="loft-taxi-header">
