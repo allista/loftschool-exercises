@@ -18,7 +18,7 @@ const App: React.FC = () => {
     [loggedIn, setPage],
   );
   return (
-    <UserContext.Provider value={{ name: userName, login, logout }}>
+    <UserContext.Provider value={{ loggedIn, name: userName, login, logout }}>
       <NavContext.Provider value={{ currentPageID, pages, selectPage }}>
         <div className="loft-taxi-main-page">
           <Header />

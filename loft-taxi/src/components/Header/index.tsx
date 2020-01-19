@@ -24,8 +24,7 @@ const PageButton: FC<PageButtonProps> = ({ id }) => {
 };
 
 export const Header: FC = () => {
-  const { name } = useContext(UserContext);
-  const loggedIn = name !== null;
+  const { loggedIn } = useContext(UserContext);
   const { pages } = useContext(NavContext);
   const pageButtons = pages.map(p =>
     pageIsSelectable(loggedIn, p.id) ? <PageButton key={p.id} id={p.id} /> : null,
