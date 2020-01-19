@@ -1,17 +1,10 @@
-export * from './Button';
+import { PageID, PageInfo } from './types';
+
+export * from './types';
 export * from './contexts';
+export * from './Button';
 
-export enum PageID {
-  LOGIN = 'login',
-  PROFILE = 'profile',
-  MAP = 'map',
-  REGISTRATION = 'registration',
-}
 
-export type PageInfo = {
-  id: PageID;
-  title: string;
-};
 
 export const pageTitles = {
   [PageID.LOGIN]: 'Войти',
