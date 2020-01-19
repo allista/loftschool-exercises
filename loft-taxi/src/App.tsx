@@ -6,10 +6,19 @@ import { UserContext, NavContext, pages, pageIsSelectable, PageID } from './shar
 
 const App: React.FC = () => {
   const [userName, setUserName] = useState<string | null>(null);
-  const login = useCallback((name: string, _: string) => setUserName(name), [setUserName]);
-  const logout = useCallback(() => setUserName(null), [setUserName]);
-  const loggedIn = userName !== null;
   const [currentPageID, setPage] = useState(pages[0].id);
+  const login = useCallback(
+    (name: string, _: string) => {
+      setUserName(name);
+      setPage(PageID.MAP);
+    },
+    [setUserName, setPage],
+  );
+  const logout = useCallback(() => {
+    setUserName(null);
+    setPage(PageID.MAP);
+  }, [setUserName, setPage]);
+  const loggedIn = userName !== null;
   const selectPage = useCallback(
     (pageID: PageID) => {
       if (pageIsSelectable(loggedIn, pageID)) setPage(pageID);

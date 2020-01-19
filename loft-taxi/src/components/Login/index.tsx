@@ -19,13 +19,7 @@ export const Login: FC = () => {
   return (
     <div className="loft-taxi-login">
       <Logo />
-      <Form
-        submitValue="Войти"
-        onSubmit={() => {
-          login(loginName, password);
-          selectPage(PageID.MAP);
-        }}
-      >
+      <Form submitValue="Войти" onSubmit={() => login(loginName, password)}>
         {{
           title: <div className="loft-taxi-page-title">{pageMap[PageID.LOGIN].title}</div>,
           header: (
