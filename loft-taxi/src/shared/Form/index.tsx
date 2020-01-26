@@ -12,6 +12,11 @@ export interface FormProps {
   onSubmit: () => void;
 }
 
+export const FormSep: FC = () => (
+  <div className="loft-taxi-form-sep">
+    <div />
+  </div>
+);
 export const FormRow: FC = ({ children }) => <div className="loft-taxi-form-row">{children}</div>;
 export const FormCol: FC = ({ children }) => <div className="loft-taxi-form-col">{children}</div>;
 

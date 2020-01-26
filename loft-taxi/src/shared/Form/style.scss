@@ -1,6 +1,14 @@
 @import '../style';
 @import '../Button/style';
 
+%input-props {
+  color: $text-color;
+  border: none;
+  border-bottom: solid 2px $field-inactive;
+  margin: 1vh 0px;
+  padding: 0.2em;
+}
+
 .loft-taxi-form {
   display: flex;
   flex-flow: column;
@@ -49,12 +57,8 @@
   }
   input,
   button {
-    border: none;
-    border-bottom: solid 2px $field-inactive;
-    color: $text-color;
+    @extend %input-props;
     outline: 0px;
-    margin: 1vh 0px;
-    padding: 0.2em;
   }
   input:focus {
     border-color: $field-active;
@@ -69,4 +73,15 @@
   background-color: $color-primary;
   margin-left: auto;
   font-weight: bold;
+}
+
+.loft-taxi-form-sep {
+  @extend %input-props;
+  flex-grow: 0;
+  align-self: flex-end;
+  > div {
+    width: 2px;
+    height: 1em;
+    background-color: $field-inactive;
+  }
 }
