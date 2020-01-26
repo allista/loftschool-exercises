@@ -17,10 +17,17 @@ export const FormCol: FC = ({ children }) => <div className="loft-taxi-form-col"
 
 export interface FormInputGroupProps {
   isColumn?: boolean;
+  className?: string;
 }
 
-export const FormInputGroup: FC<FormInputGroupProps> = ({ isColumn = true, children }) => (
-  <div className={classNames({ 'loft-taxi-form-col': isColumn }, 'loft-taxi-form-group')}>
+export const FormInputGroup: FC<FormInputGroupProps> = ({
+  isColumn = true,
+  className,
+  children,
+}) => (
+  <div
+    className={classNames({ 'loft-taxi-form-col': isColumn }, 'loft-taxi-form-group', className)}
+  >
     {children}
   </div>
 );
