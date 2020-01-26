@@ -6,10 +6,10 @@ export * from './Button';
 export * from './Form';
 
 export const pages = [
-  { id: PageID.MAP, title: 'Карта', visibility: PageVisibility.ALL },
-  { id: PageID.REGISTRATION, title: 'Регистрация', visibility: PageVisibility.GUEST },
-  { id: PageID.PROFILE, title: 'Профиль', visibility: PageVisibility.USER },
   { id: PageID.LOGIN, title: 'Войти', visibility: PageVisibility.GUEST },
+  { id: PageID.REGISTRATION, title: 'Регистрация', visibility: PageVisibility.GUEST },
+  { id: PageID.MAP, title: 'Карта', visibility: PageVisibility.USER },
+  { id: PageID.PROFILE, title: 'Профиль', visibility: PageVisibility.USER },
 ];
 
 export const pageMap: PageMap = pages.reduce<PageMap>(

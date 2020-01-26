@@ -16,13 +16,13 @@ const App: React.FC = () => {
   );
   const logout = useCallback(() => {
     setUserName(null);
-    setPage(PageID.MAP);
+    setPage(PageID.LOGIN);
   }, [setUserName, setPage]);
   const loggedIn = userName !== null;
   const selectPage = useCallback(
     (pageID: PageID) => {
       if (pageIsSelectable(loggedIn, pageID)) setPage(pageID);
-      else setPage(PageID.MAP);
+      else setPage(loggedIn ? PageID.MAP : PageID.LOGIN);
     },
     [loggedIn, setPage],
   );
