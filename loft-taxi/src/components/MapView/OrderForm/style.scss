@@ -1,0 +1,25 @@
+@import 'shared/style';
+
+.loft-taxi-order-form-button {
+  flex-grow: 0;
+  button {
+    color: $text-color-secondary;
+    align-self: flex-end;
+    background: none;
+    border-radius: 0px;
+  }
+  img {
+    width: 1em;
+    height: 1em;
+    padding-bottom: 0.2em;
+    opacity: 0.3;
+  }
+}
+
+.loft-taxi-order-form {
+  .loft-taxi-form-submit {
+    margin: 0px;
+    width: 100%;
+    justify-content: center;
+  }
+}
