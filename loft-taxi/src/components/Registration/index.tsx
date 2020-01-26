@@ -20,7 +20,7 @@ export const Registration: FC = () => {
   const [password, setPassword] = useState('');
   return (
     <div className="loft-taxi-registration">
-      <Logo />
+      <Logo name="logo-white" />
       <Form submitValue="Зарегистрироваться" onSubmit={() => login(loginName, password)}>
         {{
           title: <div className="loft-taxi-page-title">{pageMap[PageID.REGISTRATION].title}</div>,
