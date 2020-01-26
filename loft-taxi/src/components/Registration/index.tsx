@@ -13,8 +13,9 @@ export const Registration: FC = () => {
   return (
     <div className="loft-taxi-registration">
       <Logo name="logo-white" />
-      <Form submitValue="Зарегистрироваться" onSubmit={() => login(loginName, password)}>
+      <Form onSubmit={() => login(loginName, password)}>
         {{
+          submit: 'Зарегистрироваться',
           title: <div className="loft-taxi-page-title">{pageMap[PageID.REGISTRATION].title}</div>,
           header: (
             <>

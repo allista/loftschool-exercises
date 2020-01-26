@@ -47,7 +47,8 @@
   label {
     color: $text-color-secondary;
   }
-  input {
+  input,
+  button {
     border: none;
     border-bottom: solid 2px $field-inactive;
     color: $text-color;

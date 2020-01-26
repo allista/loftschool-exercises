@@ -7,8 +7,8 @@ export interface FormProps {
     title?: ReactNode;
     header?: ReactNode;
     inputs: ReactNode;
+    submit: ReactNode;
   };
-  submitValue: string;
   onSubmit: () => void;
 }
 
@@ -25,12 +25,8 @@ export const FormInputGroup: FC<FormInputGroupProps> = ({ isColumn = true, child
   </div>
 );
 
-export const Form: FC<FormProps> = ({
-  children: { title, header, inputs },
-  submitValue,
-  onSubmit,
-}) => {
-  const submit = useCallback(
+export const Form: FC<FormProps> = ({ children: { title, header, inputs, submit }, onSubmit }) => {
+  const doSubmit = useCallback(
     evt => {
       evt.preventDefault();
       onSubmit();
@@ -41,10 +37,12 @@ export const Form: FC<FormProps> = ({
     <div className="loft-taxi-form">
       {title ? <div className="loft-taxi-form-title">{title}</div> : null}
       {header ? <div className="loft-taxi-form-header">{header}</div> : null}
-      <form onSubmit={submit}>
+      <form onSubmit={doSubmit}>
         {inputs}
         <div className="loft-taxi-form-row">
-          <input type="submit" className="loft-taxi-form-submit" value={submitValue} />
+          <button type="submit" className="loft-taxi-form-submit">
+            {submit}
+          </button>
         </div>
       </form>
     </div>
