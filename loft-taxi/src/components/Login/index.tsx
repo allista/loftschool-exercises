@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
 import { UserContext, NavContext, PageID, pageMap, Form, FormRow, FormInputGroup } from 'shared';
-import Logo from 'components/Logo';
+import Logo, { LogoName } from 'components/Logo';
 import './style.scss';
 
 export const Login: FC = () => {
@@ -10,7 +10,7 @@ export const Login: FC = () => {
   const [password, setPassword] = useState('');
   return (
     <div className="loft-taxi-login">
-      <Logo name="logo-white" />
+      <Logo name={LogoName.WHITE} />
       <Form onSubmit={() => login(loginName, password)}>
         {{
           submit: 'Войти',

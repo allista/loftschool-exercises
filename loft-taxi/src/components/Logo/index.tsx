@@ -2,11 +2,16 @@ import React, { FC } from 'react';
 import classNames from 'classnames';
 import './style.scss';
 
-export interface LogoProps {
-  name?: string;
+export enum LogoName {
+  DEFAULT = 'logo',
+  WHITE = 'logo-white',
 }
 
-export const Logo: FC<LogoProps> = ({ name = 'logo' }) => {
+export interface LogoProps {
+  name?: LogoName;
+}
+
+export const Logo: FC<LogoProps> = ({ name = LogoName.DEFAULT }) => {
   const logoUrl = require(`./${name}.svg`);
   return (
     <div className={classNames('loft-taxi-logo', name)}>
