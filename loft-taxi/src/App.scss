@@ -1,0 +1,24 @@
+@import './shared/style';
+
+a {
+  color: $anchor-color;
+}
+
+.loft-taxi-main-page {
+  background-image: url(/page-background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loft-taxi-page-title {
+  font-size: 2em;
+  font-weight: bold;
+  color: $text-color;
+}
+
+.loft-taxi-page-content {
+  width: 100vw;
+  height: 100vh - $header-height;
+}

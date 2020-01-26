@@ -1,0 +1,15 @@
+@import '../../shared/style';
+
+.loft-taxi-map {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loft-taxi-page-title {
+    color: white;
+    background-color: $page-background-color;
+    padding: 1em;
+    font-size: 5em;
+  }
+}

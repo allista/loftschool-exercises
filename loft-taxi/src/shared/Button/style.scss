@@ -1,0 +1,19 @@
+@import '../style';
+
+.loft-taxi-button {
+  border: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  outline: 0px;
+  color: $text-color;
+}
+
+.loft-taxi-button > * {
+  margin-left: 5px;
+  margin-right: 5px;
+}

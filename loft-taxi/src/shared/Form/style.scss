@@ -1,0 +1,71 @@
+@import '../style';
+@import '../Button/style';
+
+.loft-taxi-form {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  width: 100%;
+  background-color: white;
+  font-size: 1em;
+}
+
+.loft-taxi-form-header {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2vh 0px;
+  font-size: 0.8em;
+}
+
+.loft-taxi-form-link {
+  margin-left: 0.3vw;
+  margin-right: 0.3vw;
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+  color: $anchor-color;
+  align-content: baseline;
+  padding: 0px;
+}
+
+.loft-taxi-form-row {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 2vh;
+  width: 100%;
+}
+
+.loft-taxi-form-col {
+  flex-grow: 1;
+}
+
+.loft-taxi-form-group {
+  display: flex;
+  flex-flow: column;
+  label {
+    color: $text-color-secondary;
+  }
+  input {
+    border: none;
+    border-bottom: solid 2px $field-inactive;
+    color: $text-color;
+    outline: 0px;
+    margin: 1vh 0px;
+    padding: 0.2em;
+  }
+  input:focus {
+    border-color: $field-active;
+  }
+  input:invalid {
+    border-color: $field-error;
+  }
+}
+
+.loft-taxi-form-submit {
+  @extend .loft-taxi-button;
+  background-color: $color-primary;
+  margin-left: auto;
+  font-weight: bold;
+}

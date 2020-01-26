@@ -1,0 +1,21 @@
+@import '../../shared/style';
+
+.loft-taxi-registration {
+  .loft-taxi-logo {
+    position: absolute;
+    top: 40vh;
+    left: 25vw;
+  }
+
+  .loft-taxi-logo-secondary {
+    color: white;
+  }
+
+  .loft-taxi-form {
+    position: absolute;
+    top: 30vh;
+    left: 50vw;
+    width: 30vw;
+    padding: 3vh 2vw;
+  }
+}

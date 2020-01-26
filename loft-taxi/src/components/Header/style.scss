@@ -1,0 +1,32 @@
+@import '../../shared/style';
+
+.loft-taxi-header-page {
+  height: 4vh;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 2vw;
+  background: none;
+}
+
+.loft-taxi-page-selected {
+  background-color: $color-secondary;
+}
+
+.loft-taxi-header {
+  background: white;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  width: 100%;
+  height: $header-height;
+
+  .loft-taxi-logo {
+    margin: 1vh 2vw;
+    flex-grow: 1;
+  }
+
+  .loft-taxi-logout-button {
+    @extend .loft-taxi-header-page;
+    color: $text-color;
+  }
+}
