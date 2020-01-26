@@ -1,14 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
-import {
-  UserContext,
-  NavContext,
-  PageID,
-  pageMap,
-  Form,
-  FormRow,
-  FormInputGroup,
-} from '../../shared';
-import Logo from '../Logo';
+import { UserContext, NavContext, PageID, pageMap, Form, FormRow, FormInputGroup } from 'shared';
+import Logo from 'components/Logo';
 import './style.scss';
 
 export const Login: FC = () => {

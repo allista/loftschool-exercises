@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import { UserContext, Button } from '../../shared';
+import { UserContext, Button } from 'shared';
 import './style.scss';
 
 export const UserCard: FC = () => {

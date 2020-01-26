@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import './App.scss';
 import Header from './components/Header';
-import PageSelector from './components/PageSelector';
-import { UserContext, NavContext, pages, pageIsSelectable, PageID } from './shared';
+import PageSelector from 'components/PageSelector';
+import { UserContext, NavContext, pages, pageIsSelectable, PageID } from 'shared';
 
 const App: React.FC = () => {
   const [userName, setUserName] = useState<string | null>(null);

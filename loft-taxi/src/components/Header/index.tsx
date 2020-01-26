@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useContext } from 'react';
 import classNames from 'classnames';
-import { PageID, Button, UserContext, NavContext, pageMap, pageIsSelectable } from '../../shared';
-import UserCard from '../UserCard';
-import Logo from '../Logo';
+import { PageID, Button, UserContext, NavContext, pageMap, pageIsSelectable } from 'shared';
+import UserCard from 'components/UserCard';
+import Logo from 'components/Logo';
 import './style.scss';
 
 interface PageButtonProps {
