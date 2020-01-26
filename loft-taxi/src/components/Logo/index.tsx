@@ -21,7 +21,7 @@ export const Logo: FC<LogoProps> = ({ name = LogoName.DEFAULT }) => {
   }
   return (
     <div className={classNames('loft-taxi-logo', name)}>
-      <img className="loft-taxi-logo-icon" src={logoUrl} alt={`logo-${name}`} />
+      <img className="loft-taxi-logo-icon" src={logoUrl} alt={`${name}`} />
     </div>
   );
 };
