@@ -1,17 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, ButtonHTMLAttributes } from 'react';
 import calssNames from 'classnames';
 import './style.scss';
 
-export interface ButtonProps {
-  onClick?: (event?: React.MouseEvent) => void;
-  className?: string;
-  disabled?: boolean;
-}
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const Button: FC<ButtonProps> = ({ className, onClick, disabled, children }) => {
-  const buttonClass = calssNames(className, 'loft-taxi-button');
+export const Button: FC<ButtonProps> = ({ className, children, ...otherProps }) => {
+  const buttonClass = calssNames('loft-taxi-button', className);
   return (
-    <button className={buttonClass} onClick={onClick} disabled={disabled}>
+    <button className={buttonClass} {...otherProps}>
       {children}
     </button>
   );
