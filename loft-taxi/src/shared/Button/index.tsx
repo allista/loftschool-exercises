@@ -5,12 +5,13 @@ import './style.scss';
 export interface ButtonProps {
   onClick: (event?: React.MouseEvent) => void;
   className?: string;
+  disabled?: boolean;
 }
 
-export const Button: FC<ButtonProps> = ({ className, onClick, children }) => {
+export const Button: FC<ButtonProps> = ({ className, onClick, disabled, children }) => {
   const buttonClass = calssNames(className, 'loft-taxi-button');
   return (
-    <button className={buttonClass} onClick={onClick}>
+    <button className={buttonClass} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
