@@ -3,7 +3,7 @@ import calssNames from 'classnames';
 import './style.scss';
 
 export interface ButtonProps {
-  onClick: (event?: React.MouseEvent) => void;
+  onClick?: (event?: React.MouseEvent) => void;
   className?: string;
   disabled?: boolean;
 }
