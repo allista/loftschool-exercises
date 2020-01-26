@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import './App.scss';
-import Header from './components/Header';
 import PageSelector from 'components/PageSelector';
 import { UserContext, NavContext, pages, pageIsSelectable, PageID } from 'shared';
 
@@ -30,10 +29,7 @@ const App: React.FC = () => {
     <UserContext.Provider value={{ loggedIn, name: userName, login, logout }}>
       <NavContext.Provider value={{ currentPageID, pages, selectPage }}>
         <div className="loft-taxi-main-page">
-          <Header />
-          <div className="loft-taxi-page-content">
-            <PageSelector pageID={currentPageID} />
-          </div>
+          <PageSelector pageID={currentPageID} />
         </div>
       </NavContext.Provider>
     </UserContext.Provider>

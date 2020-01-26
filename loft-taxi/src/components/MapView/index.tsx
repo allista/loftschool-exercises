@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect, useReducer, useCallback, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import OrderForm, { InputProps } from './OrderForm';
+import Header from 'components/Header';
 import './style.scss';
 
 mapboxgl.accessToken =
@@ -75,6 +76,7 @@ export const MapView: FC<MapViewProps> = ({ style }) => {
   }, [style, setInputValue]);
   return (
     <div className="loft-taxi-map">
+      <Header />
       <OrderForm
         source={{ id: sourceId, value: source }}
         destinations={destinations}
