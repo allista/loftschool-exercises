@@ -1,5 +1,25 @@
 @import 'shared/style';
 
+.loft-taxi-order-form {
+  .loft-taxi-form {
+    position: absolute;
+    top: 10vh;
+    left: 20vw;
+    width: 20vw;
+    padding: 3vh 2vw;
+    z-index: 1;
+
+    .__selected {
+      border-color: $field-active;
+    }
+  }
+  .loft-taxi-form-submit {
+    margin: 0px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .loft-taxi-order-form-button {
   flex-grow: 0;
   button {
@@ -13,13 +33,5 @@
     height: 1em;
     padding-bottom: 0.2em;
     opacity: 0.3;
-  }
-}
-
-.loft-taxi-order-form {
-  .loft-taxi-form-submit {
-    margin: 0px;
-    width: 100%;
-    justify-content: center;
   }
 }
