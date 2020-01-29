@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import Login from '../Login';
-import Profile from '../Profile';
-import MapView from '../MapView';
-import Registration from '../Registration';
-import { PageID } from '../../shared';
+import { PageID } from 'shared';
+import Login from 'components/Login';
+import Profile from 'components/Profile';
+import MapView from 'components/MapView';
+import Registration from 'components/Registration';
 
 export interface PageSelectorProps {
   pageID: PageID;

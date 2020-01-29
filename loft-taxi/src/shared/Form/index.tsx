@@ -7,30 +7,38 @@ export interface FormProps {
     title?: ReactNode;
     header?: ReactNode;
     inputs: ReactNode;
+    submit: ReactNode;
   };
-  submitValue: string;
   onSubmit: () => void;
 }
 
+export const FormSep: FC = () => (
+  <div className="loft-taxi-form-sep">
+    <div />
+  </div>
+);
 export const FormRow: FC = ({ children }) => <div className="loft-taxi-form-row">{children}</div>;
 export const FormCol: FC = ({ children }) => <div className="loft-taxi-form-col">{children}</div>;
 
 export interface FormInputGroupProps {
   isColumn?: boolean;
+  className?: string;
 }
 
-export const FormInputGroup: FC<FormInputGroupProps> = ({ isColumn = true, children }) => (
-  <div className={classNames({ 'loft-taxi-form-col': isColumn }, 'loft-taxi-form-group')}>
+export const FormInputGroup: FC<FormInputGroupProps> = ({
+  isColumn = true,
+  className,
+  children,
+}) => (
+  <div
+    className={classNames({ 'loft-taxi-form-col': isColumn }, 'loft-taxi-form-group', className)}
+  >
     {children}
   </div>
 );
 
-export const Form: FC<FormProps> = ({
-  children: { title, header, inputs },
-  submitValue,
-  onSubmit,
-}) => {
-  const submit = useCallback(
+export const Form: FC<FormProps> = ({ children: { title, header, inputs, submit }, onSubmit }) => {
+  const doSubmit = useCallback(
     evt => {
       evt.preventDefault();
       onSubmit();
@@ -41,10 +49,12 @@ export const Form: FC<FormProps> = ({
     <div className="loft-taxi-form">
       {title ? <div className="loft-taxi-form-title">{title}</div> : null}
       {header ? <div className="loft-taxi-form-header">{header}</div> : null}
-      <form onSubmit={submit}>
+      <form onSubmit={doSubmit}>
         {inputs}
         <div className="loft-taxi-form-row">
-          <input type="submit" className="loft-taxi-form-submit" value={submitValue} />
+          <button type="submit" className="loft-taxi-form-submit">
+            {submit}
+          </button>
         </div>
       </form>
     </div>

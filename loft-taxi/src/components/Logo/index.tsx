@@ -1,13 +1,27 @@
 import React, { FC } from 'react';
-import logoIcon from './map-pin.svg';
+import classNames from 'classnames';
 import './style.scss';
 
-export const Logo: FC = () => {
+export enum LogoName {
+  DEFAULT = 'logo',
+  WHITE = 'logo-white',
+}
+
+export interface LogoProps {
+  name?: LogoName;
+}
+
+export const Logo: FC<LogoProps> = ({ name = LogoName.DEFAULT }) => {
+  let logoUrl: string;
+  try {
+    logoUrl = require(`./${name}.svg`);
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
   return (
-    <div className="loft-taxi-logo">
-      <img className="loft-taxi-logo-icon" src={logoIcon} alt="logo" />
-      <div className="loft-taxi-logo-primary">Loft</div>
-      <div className="loft-taxi-logo-secondary">Taxi</div>
+    <div className={classNames('loft-taxi-logo', name)}>
+      <img className="loft-taxi-logo-icon" src={logoUrl} alt={`${name}`} />
     </div>
   );
 };

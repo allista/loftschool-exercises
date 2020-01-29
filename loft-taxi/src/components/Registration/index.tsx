@@ -1,14 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
-import {
-  UserContext,
-  NavContext,
-  PageID,
-  pageMap,
-  Form,
-  FormInputGroup,
-  FormRow,
-} from '../../shared';
-import Logo from '../Logo';
+import { UserContext, NavContext, PageID, pageMap, Form, FormInputGroup, FormRow } from 'shared';
+import Logo, { LogoName } from 'components/Logo';
 import './style.scss';
 
 export const Registration: FC = () => {
@@ -20,9 +12,10 @@ export const Registration: FC = () => {
   const [password, setPassword] = useState('');
   return (
     <div className="loft-taxi-registration">
-      <Logo />
-      <Form submitValue="Зарегистрироваться" onSubmit={() => login(loginName, password)}>
+      <Logo name={LogoName.WHITE} />
+      <Form onSubmit={() => login(loginName, password)}>
         {{
+          submit: 'Зарегистрироваться',
           title: <div className="loft-taxi-page-title">{pageMap[PageID.REGISTRATION].title}</div>,
           header: (
             <>
