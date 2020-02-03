@@ -2,10 +2,10 @@ import { PageID } from 'shared';
 import { Errors } from './errors';
 import { User } from './user';
 
-export type Action<A = any, P = any> = {
+export type Action<A = any, P = any, E = {}> = {
   type: A;
   payload: P;
-};
+} & E;
 
 export type TypeOfAction<T> = T extends Action<infer A, any> ? A : any;
 
