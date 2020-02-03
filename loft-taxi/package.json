@@ -13,6 +13,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.7",
+    "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "mapbox-gl": "^1.6.1",
     "node-sass": "^4.13.1",

@@ -4,6 +4,7 @@ export * from './types';
 export * from './contexts';
 export * from './Button';
 export * from './Form';
+export * from './config';
 
 export const pages = [
   { id: PageID.LOGIN, title: 'Войти', visibility: PageVisibility.GUEST },
