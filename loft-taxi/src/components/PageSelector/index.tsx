@@ -1,6 +1,5 @@
 import Login from 'components/Login';
 import MapView from 'components/MapView';
-import Profile from 'components/Profile';
 import Registration from 'components/Registration';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
@@ -34,10 +33,7 @@ export const PageSelector: FC<RouteProps> = () => {
       <PageRoute path={PageID.REGISTRATION}>
         <Registration />
       </PageRoute>
-      <PageRoute path={PageID.PROFILE}>
-        <Profile />
-      </PageRoute>
-      <PageRoute path={PageID.MAP}>
+      <PageRoute path={[PageID.MAP, PageID.PROFILE]}>
         <MapView />
       </PageRoute>
       <Route path="*">

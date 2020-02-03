@@ -1,6 +1,13 @@
-import React, { FC, useState, useReducer, useCallback, useRef } from 'react';
+import React, {
+  useState,
+  useReducer,
+  useCallback,
+  useRef,
+  RefForwardingComponent,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import OrderForm, { InputProps } from './OrderForm';
-import MapContainer from './MapContainer';
 
 interface InputAction {
   type: 'ADD' | 'REMOVE' | 'SET';
@@ -26,7 +33,11 @@ const dstReducer = (state: InputProps[], action: InputAction): InputProps[] => {
 
 const sourceId = 'source';
 
-export const OrderManager: FC = () => {
+export interface OrderManagerAPI {
+  onMapClicked: (mapFeature: string) => void;
+}
+
+const OrderManagerInner: RefForwardingComponent<OrderManagerAPI> = (_, ref) => {
   const [curInputId, setCurInputIdState] = useState(sourceId);
   const curInputIdRef = useRef(curInputId);
   const setCurInputId = useCallback(
@@ -53,20 +64,20 @@ export const OrderManager: FC = () => {
     (mapFeature: string) => setInputValue(curInputIdRef.current, mapFeature),
     [curInputIdRef, setInputValue],
   );
+  useImperativeHandle(ref, () => ({
+    onMapClicked,
+  }));
   return (
-    <>
-      <OrderForm
-        source={{ id: sourceId, value: source }}
-        destinations={destinations}
-        selectedInputId={curInputId}
-        addDestination={addDestination}
-        rmDestination={rmDestination}
-        selectInput={setCurInputId}
-        setInputValue={setInputValue}
-      />
-      <MapContainer onClick={onMapClicked} />
-    </>
+    <OrderForm
+      source={{ id: sourceId, value: source }}
+      destinations={destinations}
+      selectedInputId={curInputId}
+      addDestination={addDestination}
+      rmDestination={rmDestination}
+      selectInput={setCurInputId}
+      setInputValue={setInputValue}
+    />
   );
 };
 
-export default OrderManager;
+export const OrderManager = forwardRef(OrderManagerInner);

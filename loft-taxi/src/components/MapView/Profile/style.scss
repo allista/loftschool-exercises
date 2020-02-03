@@ -1,7 +1,10 @@
 @import 'shared/style';
 
 .loft-taxi-profile {
-  width: 100%;
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  width: 100vw;
   height: 100vh - $header-height;
   display: flex;
   align-items: center;
@@ -11,5 +14,6 @@
     background-color: $page-background-color;
     padding: 1em;
     font-size: 5em;
+    z-index: 1;
   }
 }
