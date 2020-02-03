@@ -1,38 +1,12 @@
-import React, { useState, useCallback } from 'react';
 import './App.scss';
 import PageSelector from 'components/PageSelector';
-import { UserContext, NavContext, pages, pageIsSelectable, PageID } from 'shared';
+import React, { FC } from 'react';
 
-const App: React.FC = () => {
-  const [userName, setUserName] = useState<string | null>(null);
-  const [currentPageID, setPage] = useState(pages[0].id);
-  const login = useCallback(
-    (name: string, _: string) => {
-      setUserName(name);
-      setPage(PageID.MAP);
-    },
-    [setUserName, setPage],
-  );
-  const logout = useCallback(() => {
-    setUserName(null);
-    setPage(PageID.LOGIN);
-  }, [setUserName, setPage]);
-  const loggedIn = userName !== null;
-  const selectPage = useCallback(
-    (pageID: PageID) => {
-      if (pageIsSelectable(loggedIn, pageID)) setPage(pageID);
-      else setPage(loggedIn ? PageID.MAP : PageID.LOGIN);
-    },
-    [loggedIn, setPage],
-  );
+const App: FC = () => {
   return (
-    <UserContext.Provider value={{ loggedIn, name: userName, login, logout }}>
-      <NavContext.Provider value={{ currentPageID, pages, selectPage }}>
-        <div className="loft-taxi-main-page">
-          <PageSelector pageID={currentPageID} />
-        </div>
-      </NavContext.Provider>
-    </UserContext.Provider>
+      <div className="loft-taxi-main-page">
+        <PageSelector />
+      </div>
   );
 };
 

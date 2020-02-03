@@ -4,10 +4,8 @@ import Login from 'components/Login';
 import Profile from 'components/Profile';
 import MapView from 'components/MapView';
 import Registration from 'components/Registration';
-
-export interface PageSelectorProps {
-  pageID: PageID;
-}
+import { getPageID } from 'store/selectors';
+import { useSelector } from 'react-redux';
 
 const pageToComponent = {
   [PageID.LOGIN]: Login,
@@ -16,8 +14,9 @@ const pageToComponent = {
   [PageID.REGISTRATION]: Registration,
 };
 
-export const PageSelector: FC<PageSelectorProps> = ({ pageID }) => {
-  const Page = pageToComponent[pageID] || null;
+export const PageSelector: FC = () => {
+  const currentPageID = useSelector(getPageID);
+  const Page = pageToComponent[currentPageID] || null;
   return <Page />;
 };
 
