@@ -8,6 +8,7 @@ import './style.scss';
 
 export const RegistrationForm: FC = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(getUserLoading);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
@@ -20,6 +21,7 @@ export const RegistrationForm: FC = () => {
     surname,
   ]);
   return (
+    <>
       <Form onSubmit={doRegister}>
         {{
           submit: 'Зарегистрироваться',
@@ -86,6 +88,8 @@ export const RegistrationForm: FC = () => {
           ),
         }}
       </Form>
+      {isLoading ? <div className="loft-taxi-loading" /> : null}
+    </>
   );
 };
 

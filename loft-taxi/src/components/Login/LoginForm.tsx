@@ -7,6 +7,7 @@ import { login } from 'store/user';
 
 export const LoginForm: FC = () => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(getUserLoading);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const doLogin = useCallback(() => dispatch(login({ email, password })), [
@@ -15,6 +16,7 @@ export const LoginForm: FC = () => {
     password,
   ]);
   return (
+    <>
       <Form onSubmit={doLogin}>
         {{
           submit: 'Войти',
@@ -63,6 +65,8 @@ export const LoginForm: FC = () => {
           ),
         }}
       </Form>
+      {isLoading ? <div className="loft-taxi-loading" /> : null}
+    </>
   );
 };
 

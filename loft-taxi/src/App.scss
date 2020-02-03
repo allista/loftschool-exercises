@@ -17,3 +17,14 @@ a {
   font-weight: bold;
   color: $text-color;
 }
+
+.loft-taxi-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.3;
+  background-color: white;
+  z-index: 100;
+}
