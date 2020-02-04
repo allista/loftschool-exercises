@@ -4,7 +4,7 @@ import { MapContainer } from './MapContainer';
 import { OrderManager, OrderManagerAPI } from './OrderManager';
 import { Switch, Route } from 'react-router-dom';
 import { PageID } from 'shared';
-import { Profile } from './Profile';
+import { ProfileForm } from './ProfileForm';
 import './style.scss';
 
 export interface MapViewProps {}
@@ -22,7 +22,7 @@ export const MapView: FC<MapViewProps> = () => {
           <OrderManager ref={orderManagerRef} />
         </Route>
         <Route path={PageID.PROFILE}>
-          <Profile />
+          <ProfileForm />
         </Route>
       </Switch>
       <MapContainer onClick={onMapClicked} />
