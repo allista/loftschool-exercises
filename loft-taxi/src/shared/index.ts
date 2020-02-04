@@ -3,6 +3,7 @@ import { PageID, PageVisibility, PageMap } from './types';
 export * from './types';
 export * from './Button';
 export * from './Form';
+export * from './Input';
 export * from './config';
 
 export const pages = [
