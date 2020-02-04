@@ -1,7 +1,9 @@
 @import 'shared/style';
 
 .loft-taxi-header-page {
-  height: 4vh;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1em;
   font-weight: bold;
   text-transform: uppercase;
   margin-right: 2vw;

@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import Logo from 'components/Logo';
 import UserCard from 'components/UserCard';
-import React, { FC, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button, PageID, pageIsSelectable, pageMap, pages } from 'shared';
-import { setPage } from 'store/page';
-import { getPageID, isLoggedIn } from 'store/selectors';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouteMatch, Link } from 'react-router-dom';
+import { PageID, pageIsSelectable, pageMap, pages } from 'shared';
+import { isLoggedIn } from 'store/selectors';
 import './style.scss';
 
 interface PageButtonProps {
@@ -13,17 +13,16 @@ interface PageButtonProps {
 }
 
 const PageButton: FC<PageButtonProps> = ({ id }) => {
-  const dispatch = useDispatch();
-  const currentPageID = useSelector(getPageID);
-  const onClick = useCallback(() => dispatch(setPage(id)), [id, dispatch]);
+  const match = useRouteMatch(id);
   const className = classNames(
-    { 'loft-taxi-page-selected': id === currentPageID },
+    { 'loft-taxi-page-selected': match?.isExact },
     'loft-taxi-header-page',
+    'loft-taxi-button',
   );
   return (
-    <Button className={className} onClick={onClick}>
+    <Link to={id} className={className}>
       {pageMap[id].title}
-    </Button>
+    </Link>
   );
 };
 

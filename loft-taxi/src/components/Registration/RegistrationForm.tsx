@@ -1,25 +1,22 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Form, FormInputGroup, FormRow, PageID, pageMap } from 'shared';
-import { setPage } from 'store/page';
 import { getUserLoading } from 'store/selectors';
 import { register } from 'store/user';
-import './style.scss';
 
 export const RegistrationForm: FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const isLoading = useSelector(getUserLoading);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [password, setPassword] = useState('');
-  const doRegister = useCallback(() => dispatch(register({ email, password, name, surname })), [
-    dispatch,
-    email,
-    password,
-    name,
-    surname,
-  ]);
+  const doRegister = useCallback(
+    () => dispatch(register({ email, password, name, surname }, { history })),
+    [history, dispatch, email, password, name, surname],
+  );
   return (
     <>
       <Form onSubmit={doRegister}>
@@ -29,7 +26,7 @@ export const RegistrationForm: FC = () => {
           header: (
             <>
               <span>Уже зарегистрирваны?</span>
-              <div className="loft-taxi-form-link" onClick={() => dispatch(setPage(PageID.LOGIN))}>
+              <div className="loft-taxi-form-link" onClick={() => history.push(PageID.LOGIN)}>
                 Войти
               </div>
             </>

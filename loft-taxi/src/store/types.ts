@@ -1,4 +1,3 @@
-import { PageID } from 'shared';
 import { Errors } from './errors';
 import { User } from './user';
 
@@ -12,7 +11,6 @@ export type TypeOfAction<T> = T extends Action<infer A, any> ? A : any;
 export type PayloadOfAction<T> = T extends Action<any, infer P> ? P : any;
 
 export interface AppState {
-  pageID: PageID;
   errors: Errors;
   user: User;
 }

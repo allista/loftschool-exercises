@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect';
 import { AppState } from 'store/types';
 
-export const getPageID = (state: AppState) => state.pageID;
 export const getErrors = (state: AppState) => state.errors;
 export const getUser = (state: AppState) => state.user;
 export const getUserLoading = createSelector(getUser, user => user.loading > 0);

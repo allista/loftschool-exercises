@@ -1,16 +1,18 @@
 import React, { FC, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Form, FormInputGroup, FormRow, PageID, pageMap } from 'shared';
-import { setPage } from 'store/page';
 import { getUserLoading } from 'store/selectors';
 import { login } from 'store/user';
 
 export const LoginForm: FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const isLoading = useSelector(getUserLoading);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const doLogin = useCallback(() => dispatch(login({ email, password })), [
+  const doLogin = useCallback(() => dispatch(login({ email, password }, { history })), [
+    history,
     dispatch,
     email,
     password,
@@ -26,7 +28,7 @@ export const LoginForm: FC = () => {
               <span>Новый пользователь?</span>
               <div
                 className="loft-taxi-form-link"
-                onClick={() => dispatch(setPage(PageID.REGISTRATION))}
+                onClick={() => history.push(PageID.REGISTRATION)}
               >
                 Зарегистрируйтесь
               </div>
