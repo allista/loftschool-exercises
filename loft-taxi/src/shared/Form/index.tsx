@@ -17,6 +17,9 @@ export const FormSep: FC = () => (
     <div />
   </div>
 );
+export const FormSpace: FC<{ width?: string }> = ({ width = '1em', children }) => (
+  <div style={{ width }}>{children}</div>
+);
 export const FormRow: FC = ({ children }) => <div className="loft-taxi-form-row">{children}</div>;
 export const FormCol: FC = ({ children }) => <div className="loft-taxi-form-col">{children}</div>;
 
