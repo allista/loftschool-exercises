@@ -31,27 +31,27 @@ const testPages = (loggedIn: boolean, store: AppStore, history: History) => {
 
 describe('Header', () => {
   it('renders correctly', () => {
-    const store = initStore();
+    const { store } = initStore();
     const history = createMemoryHistory();
     renderHeader(false, store, history);
   });
   describe('when the user is NOT logged in', () => {
     it('renders page buttons vissible to GUESTs', () => {
-      const store = initStore();
+      const { store } = initStore();
       const history = createMemoryHistory();
       testPages(false, store, history);
     });
   });
   describe('when the user IS logged in', () => {
     it('renders page buttons vissible to USERs', () => {
-      const store = initStore();
+      const { store } = initStore();
       const history = createMemoryHistory();
       testPages(true, store, history);
     });
   });
   describe('when page button is clicked', () => {
     it('the selectPage callback is invoked with corresponding PageID', () => {
-      const store = initStore();
+      const { store } = initStore();
       const history = createMemoryHistory();
       const { queryByText } = renderHeader(false, store, history);
       pages.forEach(p => {

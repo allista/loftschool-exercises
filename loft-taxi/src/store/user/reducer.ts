@@ -1,4 +1,6 @@
 import { combineReducers, Reducer } from 'redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { simpleReducer } from 'store/common';
 import {
   SetCardInfoAction,
@@ -17,8 +19,15 @@ const loadingReducer: Reducer<number, SetLoadingAction> = (state = 0, action) =>
   return state;
 };
 
-export const userReducer: Reducer<User, UserAction> = combineReducers({
-  loading: loadingReducer,
-  token: simpleReducer<SetTokenAction>(UserActionType.SET_TOKEN, null),
-  card: simpleReducer<SetCardInfoAction>(UserActionType.SET_CARD_INFO, null),
-});
+export const userReducer: Reducer<User, UserAction> = persistReducer(
+  {
+    key: 'loft-taxi-user',
+    blacklist: ['loading', 'card'],
+    storage,
+  },
+  combineReducers({
+    loading: loadingReducer,
+    token: simpleReducer<SetTokenAction>(UserActionType.SET_TOKEN, null),
+    card: simpleReducer<SetCardInfoAction>(UserActionType.SET_CARD_INFO, null),
+  }),
+);

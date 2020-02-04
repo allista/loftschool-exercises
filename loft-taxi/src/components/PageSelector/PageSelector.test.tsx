@@ -13,7 +13,7 @@ describe('PageSelector', () => {
   pageIds.forEach(pageID => {
     describe(`with pageID="${pageID}" prop`, () => {
       it('renders this page', () => {
-        const store = initStore();
+        const { store } = initStore();
         const history = createMemoryHistory();
         render(
           <Provider store={store}>

@@ -14,7 +14,7 @@ const error: ErrorItem = {
 describe('ErrorDisplay', () => {
   describe('when no errors are present', () => {
     it('renders nothing', () => {
-      const store = initStore();
+      const { store } = initStore();
       const { container } = render(
         <Provider store={store}>
           <ErrorDisplay />
@@ -26,7 +26,7 @@ describe('ErrorDisplay', () => {
   });
   describe('when an error is present', () => {
     it('renders the error', () => {
-      const store = initStore();
+      const { store } = initStore();
       store.dispatch(addError(error));
       const { queryByText } = render(
         <Provider store={store}>
@@ -41,7 +41,7 @@ describe('ErrorDisplay', () => {
   });
   describe('when an error card is clicked', () => {
     it('the error is removed and not displayed anymore', () => {
-      const store = initStore();
+      const { store } = initStore();
       store.dispatch(addError(error));
       const { queryByText } = render(
         <Provider store={store}>
