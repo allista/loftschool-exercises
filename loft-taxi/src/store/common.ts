@@ -32,3 +32,14 @@ export const simpleReducer = <A extends Action>(
   if (state === undefined) return defaultState;
   return action.type === actionType ? action.payload : state;
 };
+
+export const loadingReducer = <T = TypeOfAction<Action<any, boolean>>>(
+  actionType: T,
+): Reducer<number, Action<T, boolean>> => (state, action) => {
+  if (state === undefined) return 0;
+  if (action.type === actionType) {
+    if (action.payload) return state + 1;
+    if (state > 0) return state - 1;
+  }
+  return state;
+};
