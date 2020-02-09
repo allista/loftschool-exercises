@@ -2,7 +2,8 @@ import { Reducer } from 'redux';
 import { Errors } from './types';
 import { ErrorAction, ErrorActionType } from './actions';
 
-export const errorReducer: Reducer<Errors, ErrorAction> = (state = {}, action) => {
+export const errorReducer: Reducer<Errors, ErrorAction> = (state, action) => {
+  if (state === undefined) return {};
   switch (action.type) {
     case ErrorActionType.ERROR:
       const payload = action.payload;
