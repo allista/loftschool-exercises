@@ -1,5 +1,6 @@
 import { Errors } from './errors';
 import { User } from './user';
+import { Routes } from './routes';
 
 export type Action<A = any, P = any, E = {}> = {
   type: A;
@@ -13,4 +14,5 @@ export type PayloadOfAction<T> = T extends Action<any, infer P> ? P : any;
 export interface AppState {
   errors: Errors;
   user: User;
+  routes: Routes;
 }

@@ -9,6 +9,7 @@ import {
   userLoginSaga,
   userLogoutSaga,
 } from './user';
+import { fetchAddressListSaga, fetchRouteSaga } from './routes';
 
 const makeWatcher = (saga: Saga): Saga => {
   return function* watcher() {
@@ -24,8 +25,15 @@ const makeWatcher = (saga: Saga): Saga => {
 
 export default function* rootSaga() {
   yield all(
-    [authSaga, userLoginSaga, userLogoutSaga, registerSaga, cardGetSaga, cardPostSaga].map(saga =>
-      spawn(makeWatcher(saga)),
-    ),
+    [
+      authSaga,
+      userLoginSaga,
+      userLogoutSaga,
+      registerSaga,
+      cardGetSaga,
+      cardPostSaga,
+      fetchAddressListSaga,
+      fetchRouteSaga,
+    ].map(saga => spawn(makeWatcher(saga))),
   );
 }
