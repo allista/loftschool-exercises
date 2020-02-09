@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useState, useEffect } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, FormRow, Button, Input, FormSpace } from 'shared';
 import { CardData } from 'shared/api';
 import { getCardInfo, isUserLoading } from 'store/selectors';
-import { postCard, setCardInfo, getCard } from 'store/user';
+import { postCard, setCardInfo } from 'store/user';
 import './style.scss';
 
 export interface InputProps {
@@ -24,11 +24,7 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
   const dispatch = useDispatch();
   const [showCVC, setShowCVC] = useState(false);
   const isLoading = useSelector(isUserLoading);
-  const cardInfo = useSelector(getCardInfo);
-  const cardData = cardInfo || emptyCard;
-  useEffect(() => {
-    if (!cardInfo) dispatch(getCard());
-  }, [dispatch, cardInfo]);
+  const cardData = useSelector(getCardInfo) || emptyCard;
   const updateCardInfo = useCallback(
     (key: keyof CardData, value: CardData[keyof CardData]) =>
       dispatch(

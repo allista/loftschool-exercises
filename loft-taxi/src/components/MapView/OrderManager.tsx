@@ -8,6 +8,8 @@ import React, {
   forwardRef,
 } from 'react';
 import OrderForm, { InputProps } from './OrderForm';
+import { useSelector } from 'react-redux';
+import { isCardFilled, isUserLoading } from 'store/selectors';
 
 interface InputAction {
   type: 'ADD' | 'REMOVE' | 'SET';
@@ -38,6 +40,8 @@ export interface OrderManagerAPI {
 }
 
 const OrderManagerInner: RefForwardingComponent<OrderManagerAPI> = (_, ref) => {
+  const isLoading = useSelector(isUserLoading);
+  const cardIsFilled = useSelector(isCardFilled);
   const [curInputId, setCurInputIdState] = useState(sourceId);
   const curInputIdRef = useRef(curInputId);
   const setCurInputId = useCallback(
@@ -67,16 +71,23 @@ const OrderManagerInner: RefForwardingComponent<OrderManagerAPI> = (_, ref) => {
   useImperativeHandle(ref, () => ({
     onMapClicked,
   }));
+  if (isLoading) return null;
+  if (cardIsFilled)
+    return (
+      <OrderForm
+        source={{ id: sourceId, value: source }}
+        destinations={destinations}
+        selectedInputId={curInputId}
+        addDestination={addDestination}
+        rmDestination={rmDestination}
+        selectInput={setCurInputId}
+        setInputValue={setInputValue}
+      />
+    );
   return (
-    <OrderForm
-      source={{ id: sourceId, value: source }}
-      destinations={destinations}
-      selectedInputId={curInputId}
-      addDestination={addDestination}
-      rmDestination={rmDestination}
-      selectInput={setCurInputId}
-      setInputValue={setInputValue}
-    />
+    <div className="loft-taxi-order-form-unavailable">
+      <h2>Чтобы сделать заказ, необходимо заполнить профиль</h2>
+    </div>
   );
 };
 

@@ -8,6 +8,10 @@ export const isUserLoading = createSelector(getUser, user => user.loading > 0);
 export const getToken = createSelector(getUser, user => user.token);
 export const getCardInfo = createSelector(getUser, user => user.card);
 export const isLoggedIn = createSelector(getToken, token => token !== null);
+export const isCardFilled = createSelector(
+  getCardInfo,
+  card => card && card.cardName && card.cardNumber && card.expiryDate && card.cvc,
+);
 
 export const getRoutes = (state: AppState) => state.routes;
 export const isRoutesLoading = createSelector(getRoutes, routes => routes.loading > 0);
