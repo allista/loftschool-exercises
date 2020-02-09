@@ -1,8 +1,11 @@
-import React, { FC, useCallback, useContext } from 'react';
 import classNames from 'classnames';
-import { PageID, Button, UserContext, NavContext, pageMap, pageIsSelectable } from 'shared';
-import UserCard from 'components/UserCard';
 import Logo from 'components/Logo';
+import UserCard from 'components/UserCard';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { useRouteMatch, Link } from 'react-router-dom';
+import { PageID, pageIsSelectable, pageMap, pages } from 'shared';
+import { isLoggedIn } from 'store/selectors';
 import './style.scss';
 
 interface PageButtonProps {
@@ -10,22 +13,21 @@ interface PageButtonProps {
 }
 
 const PageButton: FC<PageButtonProps> = ({ id }) => {
-  const { currentPageID, selectPage } = useContext(NavContext);
-  const onClick = useCallback(() => selectPage(id), [id, selectPage]);
+  const match = useRouteMatch(id);
   const className = classNames(
-    { 'loft-taxi-page-selected': id === currentPageID },
+    { 'loft-taxi-page-selected': match?.isExact },
     'loft-taxi-header-page',
+    'loft-taxi-button',
   );
   return (
-    <Button className={className} onClick={onClick}>
+    <Link to={id} className={className}>
       {pageMap[id].title}
-    </Button>
+    </Link>
   );
 };
 
 export const Header: FC = () => {
-  const { loggedIn } = useContext(UserContext);
-  const { pages } = useContext(NavContext);
+  const loggedIn = useSelector(isLoggedIn);
   const pageButtons = pages.map(p =>
     pageIsSelectable(loggedIn, p.id) ? <PageButton key={p.id} id={p.id} /> : null,
   );

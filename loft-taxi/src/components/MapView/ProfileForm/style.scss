@@ -1,0 +1,40 @@
+@import 'shared/style';
+
+.loft-taxi-profile-form {
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  width: 100vw;
+  height: 100vh - $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .loft-taxi-form {
+    width: 40vw;
+    display: flex;
+    padding: 3vh 2vw;
+    z-index: 1;
+  }
+
+  .loft-taxi-form-title {
+    font-size: 2em;
+    font-weight: bold;
+    align-self: center;
+  }
+
+  .loft-taxi-form-header {
+    color: $text-color-secondary;
+    align-self: center;
+  }
+
+  .loft-taxi-form-submit {
+    margin: 0px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.loft-taxi-profile-card-symbol {
+  margin-bottom: 4em;
+}

@@ -1,0 +1,28 @@
+.loft-taxi-errors {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.loft-taxi-error-card {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em 1em;
+  margin: 1em;
+  border: 1px solid grey;
+  border-radius: 0.5em;
+  background-color: rgb(255, 166, 166);
+  z-index: 100;
+}
+
+.loft-taxi-error-message {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}

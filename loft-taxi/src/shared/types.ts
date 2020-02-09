@@ -1,8 +1,8 @@
 export enum PageID {
-  LOGIN = 'login',
-  PROFILE = 'profile',
-  MAP = 'map',
-  REGISTRATION = 'registration',
+  LOGIN = '/login',
+  PROFILE = '/profile',
+  MAP = '/map',
+  REGISTRATION = '/registration',
 }
 
 export enum PageVisibility {

@@ -1,33 +1,28 @@
+import { fireEvent, render } from '@testing-library/react';
+import { createMemoryHistory, History } from 'history';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import { pageIsSelectable, pages } from 'shared';
+import initStore, { AppStore } from 'store';
+import { setToken } from 'store/user';
 import Header from '.';
-import {
-  UserContext,
-  NavContext,
-  PageID,
-  pageMap,
-  pages,
-  pageIsSelectable,
-  NavContextProps,
-} from 'shared';
 
-const defaultPage = PageID.LOGIN;
+const token = 'sadfq984rqm-dx17nm43c';
 
-const renderHeader = (loggedIn: boolean, { pages, selectPage, currentPageID }: NavContextProps) =>
-  render(
-    <UserContext.Provider value={{ loggedIn, name: null, login: jest.fn(), logout: jest.fn() }}>
-      <NavContext.Provider value={{ currentPageID: currentPageID, pages, selectPage }}>
+const renderHeader = (loggedIn: boolean, store: AppStore, history: History) => {
+  if (loggedIn) store.dispatch(setToken(token));
+  return render(
+    <Provider store={store}>
+      <Router history={history}>
         <Header />
-      </NavContext.Provider>
-    </UserContext.Provider>,
+      </Router>
+    </Provider>,
   );
+};
 
-const testPages = (loggedIn: boolean) => {
-  const { queryByText } = renderHeader(loggedIn, {
-    currentPageID: defaultPage,
-    pages,
-    selectPage: jest.fn(),
-  });
+const testPages = (loggedIn: boolean, store: AppStore, history: History) => {
+  const { queryByText } = renderHeader(loggedIn, store, history);
   pages.forEach(p => {
     if (pageIsSelectable(loggedIn, p.id)) expect(queryByText(p.title)).toBeTruthy();
     else expect(queryByText(p.title)).not.toBeTruthy();
@@ -35,40 +30,34 @@ const testPages = (loggedIn: boolean) => {
 };
 
 describe('Header', () => {
-  describe('when no pages provided', () => {
-    it('does not render default page button', () => {
-      const { queryByText } = renderHeader(false, {
-        pages: [],
-        selectPage: jest.fn(),
-        currentPageID: defaultPage,
-      });
-      expect(queryByText(pageMap[defaultPage].title)).not.toBeTruthy();
+  it('renders correctly', () => {
+    const { store } = initStore();
+    const history = createMemoryHistory();
+    renderHeader(false, store, history);
+  });
+  describe('when the user is NOT logged in', () => {
+    it('renders page buttons vissible to GUESTs', () => {
+      const { store } = initStore();
+      const history = createMemoryHistory();
+      testPages(false, store, history);
     });
   });
-  describe('when pages provided', () => {
-    describe('and the user is NOT logged in', () => {
-      it('renders page buttons vissible to GUESTs', () => {
-        testPages(false);
-      });
-    });
-    describe('and the user IS logged in', () => {
-      it('renders page buttons vissible to USERs', () => {
-        testPages(true);
-      });
+  describe('when the user IS logged in', () => {
+    it('renders page buttons vissible to USERs', () => {
+      const { store } = initStore();
+      const history = createMemoryHistory();
+      testPages(true, store, history);
     });
   });
   describe('when page button is clicked', () => {
     it('the selectPage callback is invoked with corresponding PageID', () => {
-      const selectPage = jest.fn();
-      const { queryByText } = renderHeader(false, {
-        pages,
-        selectPage: selectPage,
-        currentPageID: defaultPage,
-      });
+      const { store } = initStore();
+      const history = createMemoryHistory();
+      const { queryByText } = renderHeader(false, store, history);
       pages.forEach(p => {
         if (pageIsSelectable(false, p.id)) {
           fireEvent.click(queryByText(p.title) as HTMLElement);
-          expect(selectPage).lastCalledWith(p.id);
+          expect(history.location.pathname).toBe(p.id);
         }
       });
     });

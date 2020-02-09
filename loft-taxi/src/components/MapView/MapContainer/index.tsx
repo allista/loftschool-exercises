@@ -42,5 +42,3 @@ export const MapContainer: FC<MapContainerProps> = ({ onClick, style = defaultSt
   }, [style, onClick]);
   return <div className="loft-taxi-map-container" ref={mapContainerRef} />;
 };
-
-export default MapContainer;

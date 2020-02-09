@@ -1,12 +1,18 @@
-import React, { FC, useContext } from 'react';
-import { UserContext, Button } from 'shared';
+import React, { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Button } from 'shared';
+import { isLoggedIn } from 'store/selectors';
+import { logout } from 'store/user';
 import './style.scss';
 
 export const UserCard: FC = () => {
-  const { name, logout } = useContext(UserContext);
-  if (!name) return null;
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const loggedIn = useSelector(isLoggedIn);
+  if (!loggedIn) return null;
   return (
-    <Button className="loft-taxi-logout-button" onClick={logout}>
+    <Button className="loft-taxi-logout-button" onClick={() => dispatch(logout(history))}>
       Выход
     </Button>
   );

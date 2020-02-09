@@ -1,9 +1,10 @@
 import { PageID, PageVisibility, PageMap } from './types';
 
 export * from './types';
-export * from './contexts';
 export * from './Button';
 export * from './Form';
+export * from './Input';
+export * from './config';
 
 export const pages = [
   { id: PageID.LOGIN, title: 'Войти', visibility: PageVisibility.GUEST },
