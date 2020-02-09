@@ -28,5 +28,7 @@ export function _A<A extends Action, T = TypeOfAction<A>, P = PayloadOfAction<A>
 export const simpleReducer = <A extends Action>(
   actionType: TypeOfAction<A>,
   defaultState: PayloadOfAction<A>,
-): Reducer<PayloadOfAction<A>, A> => (state = defaultState, action) =>
-  action.type === actionType ? action.payload : state;
+): Reducer<PayloadOfAction<A>, A> => (state, action) => {
+  if (state === undefined) return defaultState;
+  return action.type === actionType ? action.payload : state;
+};
