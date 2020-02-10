@@ -14,7 +14,6 @@ export interface OrderFormProps {
   addDestination: () => void;
   rmDestination: (id: string) => void;
   selectInput: (id: string) => void;
-  centerOn?: (feature: string) => void;
   setInputValue: (id: string, value: string) => void;
 }
 
@@ -25,7 +24,6 @@ export const OrderForm: FC<OrderFormProps> = ({
   addDestination,
   rmDestination,
   selectInput,
-  centerOn,
   setInputValue,
 }) => {
   const onFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => selectInput(e.target.id), [
