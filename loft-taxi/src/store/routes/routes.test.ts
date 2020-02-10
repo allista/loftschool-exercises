@@ -34,16 +34,33 @@ describe('Routes reducer', () => {
   });
   describe('when address is selected', () => {
     describe('without index', () => {
-      it('it is added to the addresses of the currentRoute', () => {
-        let newState = routesReducer(state, actions.selectAddress(0));
-        newState = routesReducer(newState, actions.selectAddress(1));
-        expect(newState.currentRoute.addresses).toEqual([0, 1]);
+      describe('and it is not the same address as the last one', () => {
+        it('it is added to the addresses of the currentRoute', () => {
+          let newState = routesReducer(state, actions.selectAddress(0));
+          newState = routesReducer(newState, actions.selectAddress(1));
+          expect(newState.currentRoute.addresses).toEqual([0, 1]);
+        });
+      });
+      describe('and it IS the same address as the last one', () => {
+        it('it is NOT added to the addresses of the currentRoute', () => {
+          let newState = routesReducer(state, actions.selectAddress(0));
+          newState = routesReducer(newState, actions.selectAddress(0));
+          expect(newState.currentRoute.addresses).toEqual([0]);
+        });
       });
     });
     describe('with the index in bounds', () => {
-      it('it replaces the address at this index in the currentRoute', () => {
-        let newState = routesReducer(stateWithAddresses, actions.selectAddress(2, 0));
-        expect(newState.currentRoute.addresses).toEqual([2, 1]);
+      describe('and it is not the same address as the neigboring ones', () => {
+        it('it replaces the address at this index in the currentRoute', () => {
+          let newState = routesReducer(stateWithAddresses, actions.selectAddress(2, 0));
+          expect(newState.currentRoute.addresses).toEqual([2, 1]);
+        });
+      });
+      describe('and it IS the same address as one of the neigboring ones', () => {
+        it('the state remains unchanged', () => {
+          let newState = routesReducer(stateWithAddresses, actions.selectAddress(1, 0));
+          expect(newState).toEqual(stateWithAddresses);
+        });
       });
     });
     describe('with the index that is out of bounds', () => {

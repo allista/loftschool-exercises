@@ -21,11 +21,18 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
     switch (action.type) {
       case RoutesActionType.SELECT_ADDRESS:
         const [addressKey, idx1] = action.payload;
-        if (idx1 < 0) return { ...state, addresses: [...state.addresses, addressKey] };
-        if (idx1 < state.addresses.length) {
-          const newAddresses = state.addresses.slice();
+        const { addresses, ...rest } = state;
+        if (idx1 < 0 && addresses[addresses.length - 1] !== addressKey)
+          return { ...rest, addresses: [...addresses, addressKey] };
+        if (
+          idx1 < addresses.length &&
+          addresses[idx1 - 1] !== addressKey &&
+          addresses[idx1 + 1] !== addressKey
+        ) {
+          const { routes, ...rest2 } = rest;
+          const newAddresses = addresses.slice();
           newAddresses[idx1] = addressKey;
-          return { ...state, addresses: newAddresses, routes: state.routes.slice(0, idx1) };
+          return { ...rest2, addresses: newAddresses, routes: routes.slice(0, idx1) };
         }
         break;
       case RoutesActionType.REMOVE_ADDRESS:
