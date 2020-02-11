@@ -1,15 +1,15 @@
 import Header from 'components/Header';
-import { MapContainer } from './MapContainer';
-import { Switch, Route } from 'react-router-dom';
 import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { PageID } from 'shared';
 import { fetchAddressList, fetchNextRoute } from 'store/routes';
 import { getAddressList, getCardInfo, getRoutesToUpdate } from 'store/selectors';
+import { getCard } from 'store/user';
+import { MapContainer } from './MapContainer';
 import { OrderManager } from './OrderManager';
 import { ProfileForm } from './ProfileForm';
 import './style.scss';
-import { useSelector, useDispatch } from 'react-redux';
-import { getCard } from 'store/user';
 
 export interface MapViewProps {}
 
