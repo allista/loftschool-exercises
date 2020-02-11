@@ -4,8 +4,8 @@
   .loft-taxi-form {
     position: absolute;
     top: 10vh;
-    left: 20vw;
-    width: 20vw;
+    left: 10vw;
+    width: 30vw;
     padding: 3vh 2vw;
     z-index: 1;
 
@@ -18,20 +18,30 @@
     width: 100%;
     justify-content: center;
   }
-}
 
-.loft-taxi-order-form-button {
-  flex-grow: 0;
-  button {
-    color: $text-color-secondary;
-    align-self: flex-end;
-    background: none;
-    border-radius: 0px;
+  &-destination-selector {
+    &__control {
+      border: none !important;
+      border-radius: 0px !important;
+      border-bottom: 2px solid $field-inactive !important;
+      &--is-focused {
+        box-shadow: none !important;
+      }
+    }
+    &__indicator-separator {
+      width: 2px !important;
+      background-color: $field-inactive !important;
+    }
   }
-  img {
-    width: 1em;
-    height: 1em;
-    padding-bottom: 0.2em;
-    opacity: 0.3;
+
+  &-add-destination-button {
+    justify-content: center;
+    flex-grow: 1;
+    img {
+      width: 16px;
+      height: 16px;
+      opacity: 0.3;
+      margin: 0 8px;
+    }
   }
 }
