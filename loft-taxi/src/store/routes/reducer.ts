@@ -31,7 +31,7 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
         ) {
           const newAddresses = addresses.slice();
           newAddresses[idx1] = addressKey;
-          return { ...state, addresses: newAddresses, routes: routes.slice(0, idx1) };
+          return { ...state, addresses: newAddresses, routes: routes.slice(0, idx1 - 1) };
         }
         break;
       case RoutesActionType.REMOVE_ADDRESS:
@@ -39,7 +39,7 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
         return {
           ...state,
           addresses: state.addresses.slice(0, idx2),
-          routes: state.routes.slice(0, idx2),
+          routes: routes.slice(0, idx2 - 1),
         };
       case RoutesActionType.ADD_ROUTE:
         if (addresses.length - routes.length > 1)
