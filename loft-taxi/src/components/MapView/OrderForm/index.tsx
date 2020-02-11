@@ -1,78 +1,78 @@
-import React, { FC, useCallback } from 'react';
-import { Form, FormRow, FormInputGroup, Button, FormSep } from 'shared';
+import React, { FC } from 'react';
+import Select, { ValueType } from 'react-select';
+import { Button, Form, FormInputGroup, FormRow } from 'shared';
+import { AddressKey, Addresses } from 'shared/api';
 import './style.scss';
 
-export interface InputProps {
-  id: string;
-  value: string;
+export interface AddressOption {
+  value: AddressKey;
+  label: string;
 }
 
 export interface OrderFormProps {
-  source: InputProps;
-  destinations: InputProps[];
-  selectedInputId: string;
+  addressList: Addresses;
+  addresses: AddressKey[];
   addDestination: () => void;
-  rmDestination: (id: string) => void;
-  selectInput: (id: string) => void;
-  setInputValue: (id: string, value: string) => void;
+  rmDestination: (id: number) => void;
+  setInputValue: (id: number, value: AddressKey) => void;
 }
 
 export const OrderForm: FC<OrderFormProps> = ({
-  source,
-  destinations,
-  selectedInputId,
+  addressList,
+  addresses,
   addDestination,
   rmDestination,
-  selectInput,
   setInputValue,
 }) => {
-  const onFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => selectInput(e.target.id), [
-    selectInput,
-  ]);
-  const clearSource = useCallback(() => setInputValue(source.id, ''), [setInputValue, source.id]);
-  const numDst = destinations.length;
-  const lastDst = numDst - 1;
+  const addressOption = (key: AddressKey) =>
+    key === undefined ? null : { value: key, label: addressList[key] };
+  const addressOptions = addressList.map((a, i) => ({ value: i, label: a }));
+  const addressFilter = (id: number) => (option: AddressOption) =>
+    option.value !== undefined &&
+    addresses[id - 1] !== option.value &&
+    option.value !== addresses[id + 1];
+  const onChange = (id: number) => (value: ValueType<AddressOption>) => {
+    if (value === null) rmDestination(id);
+    else if (value !== undefined && !Array.isArray(value))
+      setInputValue(id, (value as AddressOption).value);
+  };
+  const numAddresses = addresses.length;
+  const lastDst = numAddresses - 1;
   let dstInputs = [];
-  for (let i = 0; i < numDst; i++) {
-    const { id, value } = destinations[i] || {};
+  for (let i = 1; i < numAddresses; i++) {
+    const value = addresses[i];
     let grp = [];
-    if (i === 0)
+    if (i === 1)
       grp.push(
-        <label key={id + '-label'} htmlFor={id}>
+        <label key={i + 'lbl'} htmlFor={i.toString()}>
           Куда
         </label>,
       );
     grp.push(
-      <input
-        className={id === selectedInputId ? '__selected' : undefined}
-        key={id}
-        type="text"
-        id={id}
-        value={value}
-        onFocus={onFocus}
+      <Select<AddressOption>
+        classNamePrefix="loft-taxi-order-form-destination-selector"
+        key={i}
+        inputId={i.toString()}
+        value={addressOption(value)}
+        options={addressOptions.filter(addressFilter(i))}
+        onChange={onChange(i)}
+        isClearable={lastDst > 1}
       />,
     );
-    let row = [
-      <FormInputGroup key={id + '-grp'}>{grp}</FormInputGroup>,
-      <FormSep key={id + '-sep'} />,
-    ];
-    if (i < lastDst)
-      row.push(
-        <FormInputGroup key={id + '-btn'} className="loft-taxi-order-form-button">
-          <Button onClick={() => rmDestination(id)}>
-            <img src="remove.svg" alt="remove destination" />
-          </Button>
-        </FormInputGroup>,
-      );
-    else
-      row.push(
-        <FormInputGroup key={id + '-btn'} className="loft-taxi-order-form-button">
-          <Button onClick={addDestination} disabled={!value}>
+    dstInputs.push(
+      <FormRow key={i + '-row'}>
+        <FormInputGroup key={i + '-grp'}>{grp}</FormInputGroup>
+      </FormRow>,
+    );
+    if (i === lastDst && value !== undefined)
+      dstInputs.push(
+        <FormRow key={i + 1}>
+          <Button onClick={addDestination} className="loft-taxi-order-form-add-destination-button">
             <img src="add.svg" alt="add destination" />
+            добавить пункт назначения
           </Button>
-        </FormInputGroup>,
+        </FormRow>,
       );
-    dstInputs.push(<FormRow key={id + '-row'}>{row}</FormRow>);
   }
   return (
     <div className="loft-taxi-order-form">
@@ -83,26 +83,14 @@ export const OrderForm: FC<OrderFormProps> = ({
             <>
               <FormRow>
                 <FormInputGroup>
-                  <label htmlFor={source.id}>Откуда</label>
-                  <input
-                    className={source.id === selectedInputId ? '__selected' : undefined}
-                    type="text"
-                    id={source.id}
-                    value={source.value}
-                    onFocus={onFocus}
-                    // onChange={e => setLoginName(e.target.value)}
+                  <label htmlFor="0">Откуда</label>
+                  <Select<AddressOption>
+                    classNamePrefix="loft-taxi-order-form-destination-selector"
+                    inputId="0"
+                    value={addressOption(addresses[0])}
+                    options={addressOptions.filter(addressFilter(0))}
+                    onChange={onChange(0)}
                   />
-                </FormInputGroup>
-                <FormInputGroup className="loft-taxi-order-form-button">
-                  <Button onClick={clearSource}>
-                    <img src="remove.svg" alt="clear" />
-                  </Button>
-                </FormInputGroup>
-                <FormSep />
-                <FormInputGroup className="loft-taxi-order-form-button">
-                  <Button>
-                    <img src="select.svg" alt="select destination" />
-                  </Button>
                 </FormInputGroup>
               </FormRow>
               {dstInputs}

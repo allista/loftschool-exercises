@@ -17,7 +17,15 @@ export const getRoutes = (state: AppState) => state.routes;
 export const isRoutesLoading = createSelector(getRoutes, routes => routes.loading > 0);
 export const getAddressList = createSelector(getRoutes, routes => routes.addressList);
 export const getCurrentRoute = createSelector(getRoutes, routes => routes.currentRoute);
-export const needToUpdateRoutes = createSelector(
+export const getCurrentRouteAddresses = createSelector(
   getCurrentRoute,
-  currentRoute => currentRoute.addresses.length - currentRoute.routes.length > 1,
+  currentRoute => currentRoute.addresses,
+);
+export const getCurrentRouteRoutes = createSelector(
+  getCurrentRoute,
+  currentRoute => currentRoute.routes,
+);
+export const getRoutesToUpdate = createSelector(
+  getCurrentRoute,
+  currentRoute => currentRoute.addresses.length - currentRoute.routes.length - 1,
 );

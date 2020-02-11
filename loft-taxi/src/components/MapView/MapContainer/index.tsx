@@ -7,11 +7,10 @@ mapboxgl.accessToken =
 const defaultStyle = 'mapbox://styles/mapbox/streets-v11';
 
 export interface MapContainerProps {
-  onClick?: (mapFeature: string) => void;
   style?: string;
 }
 
-export const MapContainer: FC<MapContainerProps> = ({ onClick, style = defaultStyle }) => {
+export const MapContainer: FC<MapContainerProps> = ({ style = defaultStyle }) => {
   const [coords, setCoords] = useState({ center: { lng: 0, lat: 0 }, zoom: 1 });
   const coordsRef = useRef(coords);
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -26,10 +25,6 @@ export const MapContainer: FC<MapContainerProps> = ({ onClick, style = defaultSt
       zoom: coordsRef.current.zoom,
     });
     mapBox.current = map;
-    map.on('click', e => {
-      const lngLat = `${e.lngLat.lng.toFixed(4)}, ${e.lngLat.lat.toFixed(4)}`;
-      if (onClick) onClick(lngLat);
-    });
     map.on('move', e => {
       setCoords({ center: e.lngLat, zoom: e.zoom });
     });

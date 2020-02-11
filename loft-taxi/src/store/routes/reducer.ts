@@ -10,6 +10,11 @@ import {
 } from './actions';
 import { CurrentRoute, Routes } from './types';
 
+export const currentRouteDefState = {
+  addresses: [undefined, undefined],
+  routes: [],
+};
+
 const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistReducer(
   {
     key: 'loft-taxi-currentRoute',
@@ -17,7 +22,7 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
     storage,
   },
   (state, action) => {
-    if (state === undefined) return { addresses: [], routes: [] };
+    if (state === undefined) return currentRouteDefState;
     const { routes, addresses } = state;
     switch (action.type) {
       case RoutesActionType.SELECT_ADDRESS:
