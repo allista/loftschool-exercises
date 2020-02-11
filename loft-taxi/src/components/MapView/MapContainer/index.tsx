@@ -1,8 +1,9 @@
+import geojson from 'geojson';
 import mapboxgl, { GeoJSONSource, LngLat, LngLatBounds } from 'mapbox-gl';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Route } from 'shared/api';
-import { getCurrentRouteRoutes } from 'store/selectors';
+import { Addresses, Route } from 'shared/api';
+import { getCurrentRoute } from 'store/selectors';
 import './style.scss';
 
 mapboxgl.accessToken =
@@ -13,6 +14,7 @@ const routeLayerId = 'loft-taxi-route';
 const routeLocationsLayerId = 'loft-taxi-route-locations';
 
 export interface MapContainerProps {
+  addressList: Addresses;
   style?: string;
 }
 
@@ -65,12 +67,8 @@ const initLayers = (map: mapboxgl.Map) => {
     source: {
       type: 'geojson',
       data: {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: [],
-        },
+        type: 'FeatureCollection',
+        features: [],
       },
     },
     paint: {
@@ -80,7 +78,7 @@ const initLayers = (map: mapboxgl.Map) => {
   });
 };
 
-const drawRoutes = (map: mapboxgl.Map, routes: Route[]) => {
+const drawRoutes = (map: mapboxgl.Map, routes: Route[], addresses: Addresses) => {
   if (routes.length === 0 || !map.getSource(routeLayerId) || !map.getSource(routeLocationsLayerId))
     return;
   let completeRoute: Route = [];
@@ -100,12 +98,17 @@ const drawRoutes = (map: mapboxgl.Map, routes: Route[]) => {
     },
   });
   (map.getSource(routeLocationsLayerId) as GeoJSONSource).setData({
-    type: 'Feature',
-    properties: {},
-    geometry: {
-      type: 'LineString',
-      coordinates: locations,
-    },
+    type: 'FeatureCollection',
+    features: locations.map((l, i) => ({
+      type: 'Feature',
+      properties: {
+        description: addresses[i],
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: l,
+      },
+    })),
   });
   var bounds = completeRoute.reduce(
     (bounds, coord) => bounds.extend(new LngLat(...coord)),
@@ -114,8 +117,8 @@ const drawRoutes = (map: mapboxgl.Map, routes: Route[]) => {
   map.fitBounds(bounds, { padding: 20 });
 };
 
-export const MapContainer: FC<MapContainerProps> = ({ style = defaultStyle }) => {
-  const routes = useSelector(getCurrentRouteRoutes);
+export const MapContainer: FC<MapContainerProps> = ({ addressList, style = defaultStyle }) => {
+  const { routes, addresses } = useSelector(getCurrentRoute);
   const [mapIsReady, setMapIsReady] = useState(false);
   const [coords, setCoords] = useState({ center: { lng: 0, lat: 0 }, zoom: 1 });
   const coordsRef = useRef(coords);
@@ -137,6 +140,37 @@ export const MapContainer: FC<MapContainerProps> = ({ style = defaultStyle }) =>
     map.on('move', e => {
       setCoords({ center: e.lngLat, zoom: e.zoom });
     });
+    // create address popup
+    var popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+    });
+    map.on('mouseenter', routeLocationsLayerId, e => {
+      if (!e.features) return;
+      const f = e.features[0];
+      if (!f) return;
+      if (!f.geometry || !f.properties || Array.isArray(f.geometry)) return;
+      // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
+      var coordinates = (f.geometry as geojson.Point).coordinates.slice();
+      var description = f.properties.description;
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      popup
+        .setLngLat(new LngLat(coordinates[0], coordinates[1]))
+        .setHTML(description)
+        .addTo(map);
+    });
+    map.on('mouseleave', routeLocationsLayerId, function() {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+    });
     mapBox.current = map;
     return () => {
       if (mapBox.current) {
@@ -146,7 +180,12 @@ export const MapContainer: FC<MapContainerProps> = ({ style = defaultStyle }) =>
     };
   }, [style, setMapIsReady]);
   useEffect(() => {
-    if (mapBox.current && mapIsReady) drawRoutes(mapBox.current, routes);
-  }, [routes, mapIsReady]);
+    if (mapBox.current && mapIsReady)
+      drawRoutes(
+        mapBox.current,
+        routes,
+        addresses.map(a => (a !== undefined ? addressList[a] : '')),
+      );
+  }, [routes, addresses, addressList, mapIsReady]);
   return <div className="loft-taxi-map-container" ref={mapContainerRef} />;
 };

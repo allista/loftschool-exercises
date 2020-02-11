@@ -38,7 +38,7 @@ export const MapView: FC<MapViewProps> = () => {
           <ProfileForm />
         </Route>
       </Switch>
-      <MapContainer />
+      <MapContainer addressList={addressList} />
     </div>
   );
 };
