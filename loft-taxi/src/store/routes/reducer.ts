@@ -36,9 +36,14 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
         break;
       case RoutesActionType.REMOVE_ADDRESS:
         const idx2 = action.payload;
+        const newAddresses = addresses.slice();
+        newAddresses.splice(idx2, 1);
         return {
           ...state,
-          addresses: state.addresses.slice(0, idx2),
+          addresses: newAddresses.filter((key, idx, all) => {
+            if (idx < idx2) return true;
+            return key !== all[idx - 1];
+          }),
           routes: routes.slice(0, idx2 - 1),
         };
       case RoutesActionType.ADD_ROUTE:
