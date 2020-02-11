@@ -18,21 +18,20 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
   },
   (state, action) => {
     if (state === undefined) return { addresses: [], routes: [] };
+    const { routes, addresses } = state;
     switch (action.type) {
       case RoutesActionType.SELECT_ADDRESS:
         const [addressKey, idx1] = action.payload;
-        const { addresses, ...rest } = state;
         if (idx1 < 0 && addresses[addresses.length - 1] !== addressKey)
-          return { ...rest, addresses: [...addresses, addressKey] };
+          return { ...state, addresses: [...addresses, addressKey] };
         if (
           idx1 < addresses.length &&
           addresses[idx1 - 1] !== addressKey &&
           addresses[idx1 + 1] !== addressKey
         ) {
-          const { routes, ...rest2 } = rest;
           const newAddresses = addresses.slice();
           newAddresses[idx1] = addressKey;
-          return { ...rest2, addresses: newAddresses, routes: routes.slice(0, idx1) };
+          return { ...state, addresses: newAddresses, routes: routes.slice(0, idx1) };
         }
         break;
       case RoutesActionType.REMOVE_ADDRESS:
@@ -43,7 +42,7 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
           routes: state.routes.slice(0, idx2),
         };
       case RoutesActionType.ADD_ROUTE:
-        if (state.addresses.length - state.routes.length > 1)
+        if (addresses.length - routes.length > 1)
           return { ...state, routes: [...state.routes, action.payload] };
         break;
     }
