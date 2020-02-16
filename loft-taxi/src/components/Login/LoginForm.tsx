@@ -10,7 +10,6 @@ import {
   Input,
   inputPropsFromErrors,
   emailValidator,
-  passwordValidator,
 } from 'shared';
 import { isUserLoading } from 'store/selectors';
 import { login } from 'store/user';
@@ -61,7 +60,7 @@ export const LoginForm: FC = () => {
                   type="password"
                   name="password"
                   required
-                  ref={register(passwordValidator)}
+                  ref={register({ required: 'Обязательное поле' })}
                   {...inputPropsFromErrors(errors, 'password')}
                 >
                   Пароль
