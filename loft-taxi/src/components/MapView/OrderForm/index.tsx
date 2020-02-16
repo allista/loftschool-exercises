@@ -50,6 +50,7 @@ export const OrderForm: FC<OrderFormProps> = ({
       );
     grp.push(
       <Select<AddressOption>
+        placeholder="Выберите пункт назначения"
         classNamePrefix="loft-taxi-order-form-destination-selector"
         key={i}
         inputId={i.toString()}
@@ -85,6 +86,7 @@ export const OrderForm: FC<OrderFormProps> = ({
                 <FormInputGroup>
                   <label htmlFor="0">Откуда</label>
                   <Select<AddressOption>
+                    placeholder="Выбериту пункт отправления"
                     classNamePrefix="loft-taxi-order-form-destination-selector"
                     inputId="0"
                     value={addressOption(addresses[0])}
