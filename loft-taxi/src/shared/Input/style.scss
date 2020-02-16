@@ -3,67 +3,85 @@
 %input-props {
   color: $text-color;
   border: none;
-  border-bottom: solid 2px $field-inactive;
-  margin: 1vh 0px;
   padding: 0.2em;
 }
 
-.loft-taxi-input-label {
+.loft-taxi-input {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   color: $text-color-secondary;
-}
+  margin: 1vh 0px;
 
-.loft-taxi-input-label-content {
-  width: 100%;
-  display: flex;
-}
-
-.loft-taxi-input-required {
-  color: $field-error;
-  font-weight: bold;
-}
-
-.loft-taxi-input {
-  width: 100%;
-  display: flex;
-  input {
+  &__label {
     width: 100%;
-    @extend %input-props;
-    outline: 0px;
-  }
-  input:focus {
-    border-color: $field-active;
-  }
-  input:invalid {
-    border-color: $field-error;
-  }
-}
-
-.loft-taxi-input-button {
-  @extend %input-props;
-  flex-grow: 0;
-  color: $text-color-secondary;
-  align-self: flex-end;
-  background: none;
-  border-radius: 0px;
-  img {
-    width: 1em;
-    height: 1em;
-    padding-bottom: 0.2em;
-    opacity: 0.3;
-  }
-  &:disabled {
-    opacity: 1;
-    img {
-      opacity: 0;
+    display: flex;
+    margin: 0.5vh 0px;
+    &__required:after {
+      content: '*';
+      width: 1em;
+      padding-left: 0.2em;
+      color: $field-error;
+      font-weight: bold;
     }
   }
-}
-input:focus ~ .loft-taxi-input-button {
-  border-color: $field-active;
-}
-input:invalid ~ .loft-taxi-input-button {
-  border-color: $field-error;
+
+  &__field {
+    width: 100%;
+    display: flex;
+    border-bottom: solid 2px $field-inactive;
+
+    &:focus-within {
+      border-color: $field-active;
+    }
+    &--warning,
+    &--warning:focus-within {
+      border-color: $field-warning;
+    }
+    &--error,
+    &--error:focus-within {
+      border-color: $field-error;
+    }
+
+    &__input {
+      width: 100%;
+      @extend %input-props;
+      outline: 0px;
+    }
+
+    &__button {
+      @extend %input-props;
+      flex-grow: 0;
+      color: $text-color-secondary;
+      align-self: flex-end;
+      background: none;
+      border-radius: 0px;
+      img {
+        width: 1em;
+        height: 1em;
+        padding-bottom: 0.2em;
+        opacity: 0.3;
+      }
+      &:disabled {
+        opacity: 1;
+        cursor: inherit;
+        img {
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  &__message {
+    height: 1.2em;
+    padding-bottom: 0.2em;
+    color: $text-color-secondary;
+    font-size: smaller;
+    &--warning {
+      color: $text-color-warning;
+    }
+    &--error {
+      color: $text-color-error;
+    }
+  }
 }
