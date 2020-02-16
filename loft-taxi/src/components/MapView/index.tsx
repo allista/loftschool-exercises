@@ -6,10 +6,10 @@ import { PageID } from 'shared';
 import { fetchAddressList, fetchNextRoute } from 'store/routes';
 import { getAddressList, getCardInfo, getRoutesToUpdate } from 'store/selectors';
 import { getCard } from 'store/user';
-import { MapContainer } from './MapContainer';
 import { OrderManager } from './OrderManager';
 import { ProfileForm } from './ProfileForm';
 import './style.scss';
+import MapContainer from 'components/MapContainer';
 
 export interface MapViewProps {}
 

@@ -189,3 +189,5 @@ export const MapContainer: FC<MapContainerProps> = ({ addressList, style = defau
   }, [routes, addresses, addressList, mapIsReady]);
   return <div className="loft-taxi-map-container" ref={mapContainerRef} />;
 };
+
+export default MapContainer;
