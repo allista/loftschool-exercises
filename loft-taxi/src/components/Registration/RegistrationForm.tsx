@@ -1,25 +1,36 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Form, FormInputGroup, FormRow, PageID, pageMap } from 'shared';
+import {
+  emailValidator,
+  Form,
+  FormRow,
+  FormSpace,
+  Input,
+  inputPropsFromErrors,
+  nameValidator,
+  PageID,
+  pageMap,
+  passwordValidator,
+} from 'shared';
 import { isUserLoading } from 'store/selectors';
-import { register } from 'store/user';
+import { register as registerUser } from 'store/user';
 
 export const RegistrationForm: FC = () => {
+  const { register, handleSubmit, errors } = useForm({ mode: 'onChange' });
   const history = useHistory();
   const dispatch = useDispatch();
   const isLoading = useSelector(isUserLoading);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [password, setPassword] = useState('');
   const doRegister = useCallback(
-    () => dispatch(register({ email, password, name, surname }, { history })),
-    [history, dispatch, email, password, name, surname],
+    ({ email, password, name, surname }) => {
+      dispatch(registerUser({ email, password, name, surname }, { history }));
+    },
+    [history, dispatch],
   );
   return (
     <>
-      <Form onSubmit={doRegister}>
+      <Form onSubmit={handleSubmit(doRegister)}>
         {{
           submit: 'Зарегистрироваться',
           title: <div className="loft-taxi-page-title">{pageMap[PageID.REGISTRATION].title}</div>,
@@ -34,52 +45,49 @@ export const RegistrationForm: FC = () => {
           inputs: (
             <>
               <FormRow>
-                <FormInputGroup>
-                  <label htmlFor="loginName">Адрес электронной почты*</label>
-                  <input
-                    type="email"
-                    id="loginName"
-                    name="loginName"
-                    value={email}
-                    required
-                    onChange={e => setEmail(e.target.value)}
-                  />
-                </FormInputGroup>
+                <Input
+                  type="email"
+                  name="email"
+                  required
+                  ref={register(emailValidator)}
+                  {...inputPropsFromErrors(errors, 'email')}
+                >
+                  Адрес электронной почты
+                </Input>
               </FormRow>
               <FormRow>
-                <FormInputGroup>
-                  <label htmlFor="name">Имя</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                  />
-                </FormInputGroup>
-                <FormInputGroup>
-                  <label htmlFor="familyName">Фамилия</label>
-                  <input
-                    type="text"
-                    id="familyName"
-                    name="familyName"
-                    value={surname}
-                    onChange={e => setSurname(e.target.value)}
-                  />
-                </FormInputGroup>
+                <Input
+                  type="text"
+                  name="name"
+                  required
+                  width="40%"
+                  ref={register(nameValidator)}
+                  {...inputPropsFromErrors(errors, 'name')}
+                >
+                  Имя
+                </Input>
+                <FormSpace />
+                <Input
+                  type="text"
+                  name="surname"
+                  required
+                  width="40%"
+                  ref={register(nameValidator)}
+                  {...inputPropsFromErrors(errors, 'surname')}
+                >
+                  Фамилия
+                </Input>
               </FormRow>
               <FormRow>
-                <FormInputGroup>
-                  <label htmlFor="password">Пароль*</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    minLength={6}
-                    required
-                    onChange={e => setPassword(e.target.value)}
-                  />
-                </FormInputGroup>
+                <Input
+                  type="password"
+                  name="password"
+                  required
+                  ref={register(passwordValidator)}
+                  {...inputPropsFromErrors(errors, 'password')}
+                >
+                  Пароль
+                </Input>
               </FormRow>
             </>
           ),
