@@ -1,9 +1,16 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, FormRow, Button, Input, FormSpace } from 'shared';
-import { CardData } from 'shared/api';
+import { Form, FormRow, FormSpace, Input, inputPropsFromErrors } from 'shared';
+import {
+  cardNameValidator,
+  cardNumberValidator,
+  cvcValidator,
+  expiryDateValidator,
+} from 'shared/validation/card';
 import { getCardInfo, isUserLoading } from 'store/selectors';
-import { postCard, setCardInfo } from 'store/user';
+import { postCard } from 'store/user';
+import { CardData } from 'shared/api';
 import './style.scss';
 
 export interface InputProps {
@@ -21,24 +28,33 @@ const emptyCard = {
 };
 
 export const ProfileForm: FC<ProfileFormProps> = () => {
+  const cardData = useSelector(getCardInfo) || emptyCard;
+  const { register, handleSubmit, errors, setValue, triggerValidation, reset } = useForm({
+    mode: 'onChange',
+    defaultValues: cardData,
+  });
   const dispatch = useDispatch();
   const [showCVC, setShowCVC] = useState(false);
   const isLoading = useSelector(isUserLoading);
-  const cardData = useSelector(getCardInfo) || emptyCard;
-  const updateCardInfo = useCallback(
-    (key: keyof CardData, value: CardData[keyof CardData]) =>
-      dispatch(
-        setCardInfo({
-          ...cardData,
-          [key]: value,
-        }),
-      ),
-    [cardData, dispatch],
+  const sendCardInfo = useCallback(
+    cardData => {
+      dispatch(postCard({ ...cardData }));
+    },
+    [dispatch],
   );
-  const sendCardInfo = useCallback(() => dispatch(postCard({ ...cardData })), [dispatch, cardData]);
+  const resetField = useCallback(
+    (name: keyof CardData) => {
+      setValue(name, cardData[name]);
+      triggerValidation();
+    },
+    [cardData, setValue, triggerValidation],
+  );
+  useEffect(() => {
+    reset(cardData);
+  }, [cardData, reset]);
   return (
     <div className="loft-taxi-profile-form">
-      <Form onSubmit={sendCardInfo}>
+      <Form onSubmit={handleSubmit(sendCardInfo)}>
         {{
           submit: 'Сохранить',
           title: 'Профиль',
@@ -47,13 +63,14 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
             <>
               <FormRow>
                 <Input
-                  id="cardNumber"
                   type="text"
+                  name="cardNumber"
                   placeholder="1234 5678 1234 5678"
                   required
-                  value={cardData.cardNumber}
-                  onChange={e => updateCardInfo('cardNumber', e.target.value)}
-                  onClear={() => updateCardInfo('cardNumber', '')}
+                  width="40%"
+                  onClear={() => resetField('cardNumber')}
+                  ref={register(cardNumberValidator)}
+                  {...inputPropsFromErrors(errors, 'cardNumber')}
                 >
                   Номер карты
                 </Input>
@@ -66,12 +83,14 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
                 </FormSpace>
                 <Input
                   type="text"
-                  id="cardName"
+                  name="cardName"
                   placeholder="JHON SMITH"
                   required
-                  value={cardData.cardName}
-                  onChange={e => updateCardInfo('cardName', e.target.value)}
-                  onClear={() => updateCardInfo('cardName', '')}
+                  width="40%"
+                  onClear={() => resetField('cardName')}
+                  onChange={e => (e.target.value = e.target.value.toUpperCase())}
+                  ref={register(cardNameValidator)}
+                  {...inputPropsFromErrors(errors, 'cardName')}
                 >
                   Имя владельца
                 </Input>
@@ -79,23 +98,26 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
               <FormRow>
                 <Input
                   type="text"
-                  id="expiryDate"
+                  name="expiryDate"
                   placeholder="MM/YY"
                   required
-                  value={cardData.expiryDate}
-                  onChange={e => updateCardInfo('expiryDate', e.target.value)}
-                  onClear={() => updateCardInfo('expiryDate', '')}
+                  width="40%"
+                  onClear={() => resetField('expiryDate')}
+                  ref={register(expiryDateValidator)}
+                  {...inputPropsFromErrors(errors, 'expiryDate')}
                 >
                   Срок действия
                 </Input>
                 <FormSpace width="3em" />
                 <Input
                   type={showCVC ? 'text' : 'password'}
-                  id="cvc"
+                  name="cvc"
                   placeholder="123"
                   required
-                  value={cardData.cvc}
-                  onChange={e => updateCardInfo('cvc', e.target.value)}
+                  width="40%"
+                  onClear={() => resetField('cvc')}
+                  ref={register(cvcValidator)}
+                  {...inputPropsFromErrors(errors, 'cvc')}
                   buttons={[
                     {
                       content: (
