@@ -110,7 +110,7 @@ const drawRoutes = (map: mapboxgl.Map, routes: Route[], addresses: Addresses) =>
       },
     })),
   });
-  var bounds = completeRoute.reduce(
+  const bounds = completeRoute.reduce(
     (bounds, coord) => bounds.extend(new LngLat(...coord)),
     new LngLatBounds(completeRoute[0], completeRoute[0]),
   );
@@ -141,7 +141,7 @@ export const MapContainer: FC<MapContainerProps> = ({ addressList, style = defau
       setCoords({ center: e.lngLat, zoom: e.zoom });
     });
     // create address popup
-    var popup = new mapboxgl.Popup({
+    const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false,
     });
@@ -152,8 +152,8 @@ export const MapContainer: FC<MapContainerProps> = ({ addressList, style = defau
       if (!f.geometry || !f.properties || Array.isArray(f.geometry)) return;
       // Change the cursor style as a UI indicator.
       map.getCanvas().style.cursor = 'pointer';
-      var coordinates = (f.geometry as geojson.Point).coordinates.slice();
-      var description = f.properties.description;
+      const coordinates = (f.geometry as geojson.Point).coordinates.slice();
+      const description = f.properties.description;
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
       // over the copy being pointed to.
