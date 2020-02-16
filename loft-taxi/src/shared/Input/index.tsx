@@ -14,6 +14,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   inputState?: InputState;
   onClear?: () => void;
   buttons?: ReactNode[];
+  width?: string;
 }
 
 const stateClass = (baseClass: string, inputState: InputState) =>
@@ -33,6 +34,7 @@ const InputInner: RefForwardingComponent<HTMLInputElement, InputProps> = (
     buttons,
     message,
     inputState = InputState.NORMAL,
+    width,
     ...otherProps
   },
   ref,
@@ -64,7 +66,7 @@ const InputInner: RefForwardingComponent<HTMLInputElement, InputProps> = (
     </div>
   );
   return (
-    <label htmlFor={id} className="loft-taxi-input">
+    <label htmlFor={id} className="loft-taxi-input" style={{ width }}>
       {children && (
         <div className="loft-taxi-input__label">
           {children}
