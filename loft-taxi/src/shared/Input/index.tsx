@@ -9,11 +9,16 @@ export enum InputState {
   ERROR,
 }
 
+export interface ButtonSpec {
+  content: ReactNode;
+  onClick: () => void;
+}
+
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   message?: string;
   inputState?: InputState;
   onClear?: () => void;
-  buttons?: ReactNode[];
+  buttons?: ButtonSpec[];
   width?: string;
 }
 
@@ -62,7 +67,19 @@ const InputInner: RefForwardingComponent<HTMLInputElement, InputProps> = (
           <img src="remove.svg" alt="clear" />
         </Button>
       ) : null}
-      {buttons}
+      {buttons &&
+        buttons.map((spec, idx) => (
+          <Button
+            key={idx}
+            className={buttonClass}
+            onClick={e => {
+              e.preventDefault();
+              spec.onClick();
+            }}
+          >
+            {spec.content}
+          </Button>
+        ))}
     </div>
   );
   return (

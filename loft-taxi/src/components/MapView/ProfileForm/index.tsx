@@ -97,16 +97,12 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
                   value={cardData.cvc}
                   onChange={e => updateCardInfo('cvc', e.target.value)}
                   buttons={[
-                    <Button
-                      key={0}
-                      className="loft-taxi-input-button"
-                      onClick={e => {
-                        e.preventDefault();
-                        setShowCVC(!showCVC);
-                      }}
-                    >
-                      <img src={showCVC ? 'hidden.svg' : 'visible.svg'} alt="show/hide CVC" />
-                    </Button>,
+                    {
+                      content: (
+                        <img src={showCVC ? 'hidden.svg' : 'visible.svg'} alt="show/hide CVC" />
+                      ),
+                      onClick: () => setShowCVC(!showCVC),
+                    },
                   ]}
                 >
                   CVC
