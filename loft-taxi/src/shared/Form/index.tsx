@@ -12,11 +12,7 @@ export interface FormProps {
   onSubmit: () => void;
 }
 
-export const FormSep: FC = () => (
-  <div className="loft-taxi-form-sep">
-    <div />
-  </div>
-);
+export const FormSep: FC = () => <span className="loft-taxi-form-sep" />;
 export const FormSpace: FC<{ width?: string }> = ({ width = '1em', children }) => (
   <div style={{ width }}>{children}</div>
 );

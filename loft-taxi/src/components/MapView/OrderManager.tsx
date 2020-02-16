@@ -1,83 +1,56 @@
-import React, {
-  useState,
-  useReducer,
-  useCallback,
-  useRef,
-  RefForwardingComponent,
-  useImperativeHandle,
-  forwardRef,
-} from 'react';
-import OrderForm, { InputProps } from './OrderForm';
+import React, { FC, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddressKey, Addresses } from 'shared/api';
+import { removeAddress, selectAddress } from 'store/routes';
+import { getCurrentRouteAddresses, isCardFilled, isUserLoading } from 'store/selectors';
+import OrderForm from './OrderForm';
 
-interface InputAction {
-  type: 'ADD' | 'REMOVE' | 'SET';
-  payload?: null | string | InputProps;
+export interface OrderManagerProps {
+  addressList: Addresses;
 }
 
-const dstReducer = (state: InputProps[], action: InputAction): InputProps[] => {
-  switch (action.type) {
-    case 'ADD':
-      return [...state, { id: `dst_${state.length}`, value: '' }];
-    case 'REMOVE':
-      const toRemove = action.payload as string;
-      const newState = state.filter(inp => inp.id !== toRemove);
-      return newState.map((inp, i) => ({ ...inp, id: `dst_${i}` }));
-    case 'SET':
-      const { id, value } = action.payload as InputProps;
-      return state.map(inp => {
-        if (inp.id !== id) return inp;
-        return { ...inp, value };
-      });
-  }
-};
-
-const sourceId = 'source';
-
-export interface OrderManagerAPI {
-  onMapClicked: (mapFeature: string) => void;
-}
-
-const OrderManagerInner: RefForwardingComponent<OrderManagerAPI> = (_, ref) => {
-  const [curInputId, setCurInputIdState] = useState(sourceId);
-  const curInputIdRef = useRef(curInputId);
-  const setCurInputId = useCallback(
-    (id: string) => {
-      curInputIdRef.current = id;
-      setCurInputIdState(id);
+export const OrderManager: FC<OrderManagerProps> = ({ addressList }) => {
+  const dispatch = useDispatch();
+  const addresses = useSelector(getCurrentRouteAddresses);
+  const isLoading = useSelector(isUserLoading);
+  const cardIsFilled = useSelector(isCardFilled);
+  const addDestination = useCallback(() => {
+    dispatch(selectAddress(undefined));
+  }, [dispatch]);
+  const rmDestination = useCallback(
+    (id: number) => {
+      dispatch(removeAddress(id));
     },
-    [setCurInputIdState, curInputIdRef],
+    [dispatch],
   );
-  const [source, setSource] = useState('');
-  const [destinations, dispatchDst] = useReducer(dstReducer, [{ id: 'dst_0', value: '' }]);
-  const addDestination = useCallback(() => dispatchDst({ type: 'ADD' }), [dispatchDst]);
-  const rmDestination = useCallback((id: string) => dispatchDst({ type: 'REMOVE', payload: id }), [
-    dispatchDst,
-  ]);
   const setInputValue = useCallback(
-    (id: string, value: string) => {
-      if (!id || id === sourceId) setSource(value);
-      else dispatchDst({ type: 'SET', payload: { id, value } });
+    (id: number, value: AddressKey) => {
+      dispatch(selectAddress(value, id));
     },
-    [setSource, dispatchDst],
+    [dispatch],
   );
-  const onMapClicked = useCallback(
-    (mapFeature: string) => setInputValue(curInputIdRef.current, mapFeature),
-    [curInputIdRef, setInputValue],
-  );
-  useImperativeHandle(ref, () => ({
-    onMapClicked,
-  }));
+  useEffect(() => {
+    if (addresses.length < 2) dispatch(selectAddress(undefined));
+  }, [dispatch, addresses]);
+  if (isLoading)
+    return (
+      <div className="loft-taxi-order-form-unavailable">
+        <h2>Загрузка данных с сервера...</h2>
+      </div>
+    );
+  if (cardIsFilled)
+    return (
+      <OrderForm
+        addressList={addressList}
+        addresses={addresses}
+        addDestination={addDestination}
+        rmDestination={rmDestination}
+        setInputValue={setInputValue}
+      />
+    );
   return (
-    <OrderForm
-      source={{ id: sourceId, value: source }}
-      destinations={destinations}
-      selectedInputId={curInputId}
-      addDestination={addDestination}
-      rmDestination={rmDestination}
-      selectInput={setCurInputId}
-      setInputValue={setInputValue}
-    />
+    <div className="loft-taxi-order-form-unavailable">
+      <h2>Чтобы сделать заказ, необходимо заполнить профиль</h2>
+    </div>
   );
 };
-
-export const OrderManager = forwardRef(OrderManagerInner);

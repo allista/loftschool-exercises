@@ -7,6 +7,8 @@ import {
   CardPostData,
   CardData,
   CardPostResult,
+  Addresses,
+  Route,
 } from './types';
 
 export const _axios = axios.create({
@@ -30,5 +32,15 @@ export const cardGetData = async (token: string | null): Promise<CardData | null
 
 export const cardPostData = async (payload: CardPostData): Promise<CardPostResult | null> => {
   const { data } = await _axios.post('card', payload);
+  return data;
+};
+
+export const getAddressList = async (): Promise<Addresses | null> => {
+  const { data } = await _axios.get('addressList');
+  return data && data.addresses;
+};
+
+export const getRoute = async (address1: string, address2: string): Promise<Route | null> => {
+  const { data } = await _axios.get('route', { params: { address1, address2 } });
   return data;
 };

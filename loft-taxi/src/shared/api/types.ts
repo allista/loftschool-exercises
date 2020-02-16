@@ -40,3 +40,10 @@ export type CardData = {
 export interface CardPostData extends CardData {
   token: string | null;
 }
+
+export type Address = string;
+export type Addresses = Address[];
+export type AddressKey = number | undefined;
+
+export type Point = [number, number];
+export type Route = Point[];

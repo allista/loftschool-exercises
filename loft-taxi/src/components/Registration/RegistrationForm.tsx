@@ -2,13 +2,13 @@ import React, { FC, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Form, FormInputGroup, FormRow, PageID, pageMap } from 'shared';
-import { getUserLoading } from 'store/selectors';
+import { isUserLoading } from 'store/selectors';
 import { register } from 'store/user';
 
 export const RegistrationForm: FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const isLoading = useSelector(getUserLoading);
+  const isLoading = useSelector(isUserLoading);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');

@@ -1,1 +1,17 @@
 @import 'shared/style';
+
+.loft-taxi-order-form-unavailable {
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  width: 100vw;
+  height: 100vh - $header-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > h2 {
+    background-color: white;
+    padding: 2em;
+    z-index: 1;
+  }
+}
