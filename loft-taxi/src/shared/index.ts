@@ -5,6 +5,7 @@ export * from './Button';
 export * from './Form';
 export * from './Input';
 export * from './config';
+export * from './validation';
 
 export const pages = [
   { id: PageID.LOGIN, title: 'Войти', visibility: PageVisibility.GUEST },
