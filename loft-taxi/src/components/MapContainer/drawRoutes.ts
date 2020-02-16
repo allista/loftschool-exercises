@@ -3,8 +3,7 @@ import { Addresses, Route } from 'shared/api';
 import { routeLayerId, routeLocationsLayerId } from './initMap';
 
 export const drawRoutes = (map: mapboxgl.Map, routes: Route[], addresses: Addresses) => {
-  if (routes.length === 0 || !map.getSource(routeLayerId) || !map.getSource(routeLocationsLayerId))
-    return;
+  if (!map.getSource(routeLayerId) || !map.getSource(routeLocationsLayerId)) return;
   let completeRoute: Route = [];
   const locations: Route = [];
   for (let i = 0; i < routes.length; i++) {
@@ -34,9 +33,11 @@ export const drawRoutes = (map: mapboxgl.Map, routes: Route[], addresses: Addres
       },
     })),
   });
-  const bounds = completeRoute.reduce(
-    (bounds, coord) => bounds.extend(new LngLat(...coord)),
-    new LngLatBounds(completeRoute[0], completeRoute[0]),
-  );
-  map.fitBounds(bounds, { padding: 20 });
+  if (completeRoute.length > 0) {
+    const bounds = completeRoute.reduce(
+      (bounds, coord) => bounds.extend(new LngLat(...coord)),
+      new LngLatBounds(completeRoute[0], completeRoute[0]),
+    );
+    map.fitBounds(bounds, { padding: 20 });
+  }
 };
