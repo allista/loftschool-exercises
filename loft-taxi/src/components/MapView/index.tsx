@@ -32,7 +32,7 @@ export const MapView: FC<MapViewProps> = () => {
       <Header />
       <Switch>
         <Route path={PageID.MAP}>
-          <OrderManager addressList={addressList} />
+          <OrderManager addressList={addressList} routesToUpdate={routesToUpdate} />
         </Route>
         <Route path={PageID.PROFILE}>
           <ProfileForm />

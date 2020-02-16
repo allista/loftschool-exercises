@@ -7,9 +7,10 @@ import OrderForm from './OrderForm';
 
 export interface OrderManagerProps {
   addressList: Addresses;
+  routesToUpdate: number;
 }
 
-export const OrderManager: FC<OrderManagerProps> = ({ addressList }) => {
+export const OrderManager: FC<OrderManagerProps> = ({ addressList, routesToUpdate }) => {
   const dispatch = useDispatch();
   const addresses = useSelector(getCurrentRouteAddresses);
   const isLoading = useSelector(isUserLoading);
@@ -43,6 +44,7 @@ export const OrderManager: FC<OrderManagerProps> = ({ addressList }) => {
       <OrderForm
         addressList={addressList}
         addresses={addresses}
+        routesLoaded={addresses.length - routesToUpdate - 1}
         addDestination={addDestination}
         rmDestination={rmDestination}
         setInputValue={setInputValue}
