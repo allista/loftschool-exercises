@@ -1,7 +1,7 @@
 import mapboxgl from 'mapbox-gl';
+import { config } from 'shared';
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoiYWxsaXN0YSIsImEiOiJjazV0b3ZteTAwbmJ6M3Bsb3F2Z2E0aDJmIn0.yYwBFVTaGGVH0NG7g95m6g';
+mapboxgl.accessToken = config.mapboxToken;
 
 export const routeLayerId = 'loft-taxi-route';
 export const routeLocationsLayerId = 'loft-taxi-route-locations';
