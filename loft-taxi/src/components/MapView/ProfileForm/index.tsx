@@ -29,10 +29,12 @@ const emptyCard = {
 
 export const ProfileForm: FC<ProfileFormProps> = () => {
   const cardData = useSelector(getCardInfo) || emptyCard;
-  const { register, handleSubmit, errors, setValue, triggerValidation, reset } = useForm({
-    mode: 'onChange',
-    defaultValues: cardData,
-  });
+  const { register, handleSubmit, errors, setValue, triggerValidation, reset, formState } = useForm(
+    {
+      mode: 'onChange',
+      defaultValues: cardData,
+    },
+  );
   const dispatch = useDispatch();
   const [showCVC, setShowCVC] = useState(false);
   const isLoading = useSelector(isUserLoading);
@@ -54,7 +56,10 @@ export const ProfileForm: FC<ProfileFormProps> = () => {
   }, [cardData, reset]);
   return (
     <div className="loft-taxi-profile-form">
-      <Form onSubmit={handleSubmit(sendCardInfo)}>
+      <Form
+        onSubmit={handleSubmit(sendCardInfo)}
+        submitDisabled={!formState.dirty || formState.isSubmitting}
+      >
         {{
           submit: 'Сохранить',
           title: 'Профиль',

@@ -11,6 +11,7 @@ export interface FormProps {
     submit: ReactNode;
   };
   onSubmit: () => void;
+  submitDisabled?: boolean;
 }
 
 export const FormSep: FC = () => <span className="loft-taxi-form-sep" />;
@@ -37,7 +38,11 @@ export const FormInputGroup: FC<FormInputGroupProps> = ({
   </div>
 );
 
-export const Form: FC<FormProps> = ({ children: { title, header, inputs, submit }, onSubmit }) => {
+export const Form: FC<FormProps> = ({
+  children: { title, header, inputs, submit },
+  onSubmit,
+  submitDisabled,
+}) => {
   const doSubmit = useCallback(
     evt => {
       evt.preventDefault();
@@ -52,7 +57,7 @@ export const Form: FC<FormProps> = ({ children: { title, header, inputs, submit 
       <form onSubmit={doSubmit}>
         {inputs}
         <div className="loft-taxi-form-row">
-          <Button type="submit" className="loft-taxi-form-submit">
+          <Button type="submit" className="loft-taxi-form-submit" disabled={submitDisabled}>
             {submit}
           </Button>
         </div>
