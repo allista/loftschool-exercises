@@ -10,6 +10,7 @@ export enum RoutesActionType {
   REMOVE_ADDRESS = 'REMOVE_ADDRESS',
   FETCH_NEXT_ROUTE = 'FETCH_NEXT_ROUTE',
   ADD_ROUTE = 'ADD_ROUTE',
+  RESET_CURRENT_ROUTE = 'RESET_CURRENT_ROUTE',
 }
 
 export type SetLoadingAction = Action<RoutesActionType.SET_LOADING, boolean>;
@@ -21,8 +22,13 @@ export type SelectAddressAction = Action<RoutesActionType.SELECT_ADDRESS, [Addre
 export type RemoveAddressAction = Action<RoutesActionType.REMOVE_ADDRESS, number>;
 export type AddRouteAction = Action<RoutesActionType.ADD_ROUTE, Route>;
 export type FetchNextRouteAction = Action<RoutesActionType.FETCH_NEXT_ROUTE, null>;
+export type ResetCurrentRouteAction = Action<RoutesActionType.RESET_CURRENT_ROUTE, null>;
 
-export type CurrentRouteAction = SelectAddressAction | RemoveAddressAction | AddRouteAction;
+export type CurrentRouteAction =
+  | SelectAddressAction
+  | RemoveAddressAction
+  | AddRouteAction
+  | ResetCurrentRouteAction;
 
 export type RoutesAction =
   | SetLoadingAction
@@ -49,3 +55,6 @@ export const addRoute = (route: Route): AddRouteAction => _A(RoutesActionType.AD
 
 export const fetchNextRoute = (): FetchNextRouteAction =>
   _A(RoutesActionType.FETCH_NEXT_ROUTE, null);
+
+export const resetCurrentRoute = (): ResetCurrentRouteAction =>
+  _A(RoutesActionType.RESET_CURRENT_ROUTE, null);

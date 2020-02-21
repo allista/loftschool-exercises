@@ -12,6 +12,7 @@ export interface AddressOption {
 export interface OrderFormProps {
   addressList: Addresses;
   addresses: AddressKey[];
+  routesLoaded: number;
   addDestination: () => void;
   rmDestination: (id: number) => void;
   setInputValue: (id: number, value: AddressKey) => void;
@@ -20,6 +21,7 @@ export interface OrderFormProps {
 export const OrderForm: FC<OrderFormProps> = ({
   addressList,
   addresses,
+  routesLoaded,
   addDestination,
   rmDestination,
   setInputValue,
@@ -50,6 +52,7 @@ export const OrderForm: FC<OrderFormProps> = ({
       );
     grp.push(
       <Select<AddressOption>
+        placeholder="Выберите пункт назначения"
         classNamePrefix="loft-taxi-order-form-destination-selector"
         key={i}
         inputId={i.toString()}
@@ -57,6 +60,7 @@ export const OrderForm: FC<OrderFormProps> = ({
         options={addressOptions.filter(addressFilter(i))}
         onChange={onChange(i)}
         isClearable={lastDst > 1}
+        isLoading={value !== undefined && i > routesLoaded}
       />,
     );
     dstInputs.push(
@@ -85,6 +89,7 @@ export const OrderForm: FC<OrderFormProps> = ({
                 <FormInputGroup>
                   <label htmlFor="0">Откуда</label>
                   <Select<AddressOption>
+                    placeholder="Выбериту пункт отправления"
                     classNamePrefix="loft-taxi-order-form-destination-selector"
                     inputId="0"
                     value={addressOption(addresses[0])}

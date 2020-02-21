@@ -55,6 +55,8 @@ const currentRouteReducer: Reducer<CurrentRoute, CurrentRouteAction> = persistRe
         if (addresses.length - routes.length > 1)
           return { ...state, routes: [...state.routes, action.payload] };
         break;
+      case RoutesActionType.RESET_CURRENT_ROUTE:
+        return currentRouteDefState;
     }
     return state;
   },

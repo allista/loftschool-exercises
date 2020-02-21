@@ -1,28 +1,64 @@
-import React, { FC, InputHTMLAttributes, ReactNode } from 'react';
+import React, { InputHTMLAttributes, ReactNode, RefForwardingComponent, forwardRef } from 'react';
+import classNames from 'classnames';
 import Button from 'shared/Button';
 import './style.scss';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  onClear?: () => void;
-  buttons?: ReactNode[];
+export enum InputState {
+  NORMAL,
+  WARNING,
+  ERROR,
 }
 
-export const Input: FC<InputProps> = ({
-  id,
-  required,
-  children,
-  value,
-  onClear,
-  buttons,
-  ...otherProps
-}) => {
+export interface ButtonSpec {
+  content: ReactNode;
+  onClick: () => void;
+}
+
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  message?: string;
+  inputState?: InputState;
+  onClear?: () => void;
+  buttons?: ButtonSpec[];
+  width?: string;
+}
+
+const stateClass = (baseClass: string, inputState: InputState) =>
+  classNames(
+    { [`${baseClass}--error`]: inputState === InputState.ERROR },
+    { [`${baseClass}--warning`]: inputState === InputState.WARNING },
+    baseClass,
+  );
+
+const InputInner: RefForwardingComponent<HTMLInputElement, InputProps> = (
+  {
+    id,
+    required,
+    children,
+    value,
+    onClear,
+    buttons,
+    message,
+    inputState = InputState.NORMAL,
+    width,
+    ...otherProps
+  },
+  ref,
+) => {
+  const buttonClass =
+    (onClear || buttons) && stateClass('loft-taxi-input__field__button', inputState);
   const theInput = (
-    <div className="loft-taxi-input">
-      <input id={id} required={required} value={value} {...otherProps} />
+    <div className={stateClass('loft-taxi-input__field', inputState)}>
+      <input
+        ref={ref}
+        className="loft-taxi-input__field__input"
+        id={id}
+        required={required}
+        value={value}
+        {...otherProps}
+      />
       {onClear ? (
         <Button
-          disabled={!value}
-          className="loft-taxi-input-button"
+          className={buttonClass}
           onClick={e => {
             e.preventDefault();
             onClear();
@@ -31,19 +67,33 @@ export const Input: FC<InputProps> = ({
           <img src="remove.svg" alt="clear" />
         </Button>
       ) : null}
-      {buttons}
+      {buttons &&
+        buttons.map((spec, idx) => (
+          <Button
+            key={idx}
+            className={buttonClass}
+            onClick={e => {
+              e.preventDefault();
+              spec.onClick();
+            }}
+          >
+            {spec.content}
+          </Button>
+        ))}
     </div>
   );
-  if (!children) return <>{theInput}</>;
   return (
-    <label htmlFor={id} className="loft-taxi-input-label">
-      <div className="loft-taxi-input-label-content">
-        {children}
-        {required ? <div className="loft-taxi-input-required">*</div> : null}
-      </div>
+    <label htmlFor={id} className="loft-taxi-input" style={{ width }}>
+      {children && (
+        <div className="loft-taxi-input__label">
+          {children}
+          {required ? <span className="loft-taxi-input__label__required" /> : null}
+        </div>
+      )}
       {theInput}
+      <div className={stateClass('loft-taxi-input__message', inputState)}>{message}</div>
     </label>
   );
 };
 
-export default Input;
+export const Input = forwardRef(InputInner);

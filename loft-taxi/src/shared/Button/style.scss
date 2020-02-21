@@ -10,11 +10,13 @@
   border: none;
   border-radius: 5px;
   outline: 0px;
+  cursor: pointer;
   color: $text-color;
   > * ~ * {
     margin-left: 0.5em;
   }
   &:disabled {
     opacity: 0.5;
+    cursor: not-allowed;
   }
 }

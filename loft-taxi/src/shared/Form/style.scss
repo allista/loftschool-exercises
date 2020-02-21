@@ -1,5 +1,4 @@
 @import '../style';
-@import '../Button/style';
 
 %input-props {
   color: $text-color;
@@ -70,7 +69,6 @@
 }
 
 .loft-taxi-form-submit {
-  @extend .loft-taxi-button;
   background-color: $color-primary;
   margin-left: auto;
   font-weight: bold;
